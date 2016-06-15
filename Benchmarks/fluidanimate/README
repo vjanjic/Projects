@@ -1,0 +1,2 @@
+To compile a serial version, do make -f Makefile.serial in the src dir.
+make -f Makefile.tbb builds the TBB version

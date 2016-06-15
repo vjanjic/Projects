@@ -1,0 +1,1690 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.46837' (creator: callgrind-3.10.1)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 3388857505
+Trigger: Program termination
+Profiled target:  ./fluidanimate 2 100 ../inputs/in_15K.fluid out (PID 46837, part 1)
+Events recorded:  Ir Ge
+Events shown:     Ir Ge
+Event sort order: Ir Ge
+Thresholds:       99 0
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+            Ir         Ge 
+--------------------------------------------------------------------------------
+42,633,203,661 10,501,864  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+            Ir         Ge  file:function
+--------------------------------------------------------------------------------
+42,498,584,873 10,471,378  ???:start_thread [/usr/lib64/libpthread-2.21.so]
+42,498,577,269 10,471,367  pthreads.cpp:AdvanceFramesMT(void*) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+42,498,577,269 10,471,367  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/pthreads.cpp:AdvanceFramesMT(void*)
+42,498,575,241 10,471,367  pthreads.cpp:AdvanceFrameMT(int) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+23,689,036,461  5,082,767  pthreads.cpp:ComputeForcesMT(int) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+15,833,900,186  5,082,766  pthreads.cpp:ComputeDensitiesMT(int) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+10,219,557,205          .  fluid.hpp:Vec3::operator-(Vec3 const&) const [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+10,219,557,205          .  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-(Vec3 const&) const
+ 4,714,371,738          .  fluid.hpp:Vec3::Vec3(float, float, float) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+ 3,792,630,028          .  fluid.hpp:Vec3::GetLengthSq() const [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+ 3,792,630,028          .  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::GetLengthSq() const
+ 3,436,528,416          .  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const
+ 3,436,528,416          .  fluid.hpp:Vec3::operator*(float) const [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   996,705,397     27,000  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*)
+   996,705,397     27,000  parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   855,110,546          .  pthreads.cpp:InitNeighCellList(int, int, int, int*) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   793,786,336          .  fluid.hpp:Vec3::operator+=(Vec3 const&) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   793,786,336          .  /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+=(Vec3 const&)
+   688,741,360          .  pthreads.cpp:AdvanceParticlesMT(int) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   460,200,344    278,834  pthreads.cpp:RebuildGridMT(int) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+   375,699,968          .  fluid.hpp:Vec3::operator-=(Vec3 const&) [/home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluidanimate]
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp
+--------------------------------------------------------------------------------
+  No information has been collected for /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: fluid.hpp
+--------------------------------------------------------------------------------
+           Ir Ge 
+
+-- line 34 ----------------------------------------
+            .  .  
+            .  .  #ifndef ENABLE_DOUBLE_PRECISION
+            .  .  typedef float fptype;
+            .  .  #else
+            .  .  typedef double fptype;
+            .  .  #endif
+            .  .  
+            .  .  
+       60,556  .  static inline int isLittleEndian() {
+            .  .    union {
+            .  .      uint16_t word;
+            .  .      uint8_t byte;
+            .  .    } endian_test;
+            .  .  
+       30,278  .    endian_test.word = 0x00FF;
+      121,112  .    return (endian_test.byte == 0xFF);
+       60,556  .  }
+            .  .  
+            .  .  //NOTE: Use float variables even for double precision version b/c file format uses float
+            .  .  union __float_and_int {
+            .  .    uint32_t i;
+            .  .    float    f;
+            .  .  };
+            .  .  
+            .  .  static inline float bswap_float(float x) {
+-- line 58 ----------------------------------------
+-- line 330 ----------------------------------------
+            .  .  
+            .  .  // NOTE: icc-optimized version of this class gave 15% more
+            .  .  // performance than our hand-optimized SSE3 implementation
+            .  .  class Vec3
+            .  .  {
+            .  .  public:
+            .  .    fptype x, y, z;
+            .  .  
+   11,523,078  .    Vec3() {}
+4,714,371,738  .    Vec3(fptype _x, fptype _y, fptype _z) : x(_x), y(_y), z(_z) {}
+            .  .  
+3,792,630,028  .    fptype  GetLengthSq() const         { return x*x + y*y + z*z; }
+            .  .    fptype  GetLength() const           { return sqrtf(GetLengthSq()); }
+            .  .    Vec3 &  Normalize()                 { return *this /= GetLength(); }
+            .  .  
+            .  .    bool    operator == (Vec3 const &v) { return (x == v.x) && (y == v.y) && (z += v.z); }
+  793,786,336  .    Vec3 &  operator += (Vec3 const &v) { x += v.x;  y += v.y; z += v.z; return *this; }
+  375,699,968  .    Vec3 &  operator -= (Vec3 const &v) { x -= v.x;  y -= v.y; z -= v.z; return *this; }
+   33,303,600  .    Vec3 &  operator *= (fptype s)      { x *= s;  y *= s; z *= s; return *this; }
+  335,446,400  .    Vec3 &  operator /= (fptype s)      { fptype tmp = 1.f/s; x *= tmp;  y *= tmp; z *= tmp; return *this; }
+            .  .  
+  166,687,294  .    Vec3    operator + (Vec3 const &v) const    { return Vec3(x+v.x, y+v.y, z+v.z); }
+   81,091,116  .  => fluid.hpp:Vec3::Vec3(float, float, float) (4505062x)
+            .  .    Vec3    operator + (fptype const &f) const  { return Vec3(x+f, y+f, z+f); }
+            .  .    Vec3    operator - () const                 { return Vec3(-x, -y, -z); }
+6,874,974,847  .    Vec3    operator - (Vec3 const &v) const    { return Vec3(x-v.x, y-v.y, z-v.z); }
+3,344,582,358  .  => fluid.hpp:Vec3::Vec3(float, float, float) (185810131x)
+2,147,830,260  .    Vec3    operator * (fptype s) const         { return Vec3(x*s, y*s, z*s); }
+1,288,698,156  .  => fluid.hpp:Vec3::Vec3(float, float, float) (71594342x)
+            .  .    Vec3    operator / (fptype s) const         { fptype tmp = 1.f/s; return Vec3(x*tmp, y*tmp, z*tmp); }
+            .  .  
+            .  .    fptype  operator * (Vec3 const &v) const    { return x*v.x + y*v.y + z*v.z; }
+            .  .  };
+            .  .  
+            .  .  #endif 
+            .  .  
+            .  .  
+-- line 363 ----------------------------------------
+-- line 396 ----------------------------------------
+            .  .  
+            .  .  //Real Cell structure
+            .  .  struct Cell {
+            .  .    CELL_CONTENTS
+            .  .    Cell *next;
+            .  .    //padding to force cell size to a multiple of estimated cache line size
+            .  .  #pragma warning( disable : 1684) // warning #1684: conversion from pointer to same-sized integral type (potential portability problem)
+            .  .    char padding[CACHELINE_SIZE - (offsetof(struct Cell_aux, padding) % CACHELINE_SIZE)];
+   14,553,880  .    Cell() { next = NULL; }
+   11,523,072  .  => fluid.hpp:Vec3::Vec3() (1920512x)
+            .  .  };
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  static const fptype pi = 3.14159265358979;
+            .  .  
+            .  .  static const fptype parSize = 0.0002;
+            .  .  static const fptype epsilon = 1e-10;
+-- line 412 ----------------------------------------
+-- line 413 ----------------------------------------
+            .  .  static const fptype stiffnessPressure = 3.0;
+            .  .  static const fptype stiffnessCollisions = 30000.0;
+            .  .  static const fptype damping = 128.0;
+            .  .  static const fptype viscosity = 0.4;
+            .  .  
+            .  .  static fptype timeStep = 0.001;
+            .  .  static const fptype doubleRestDensity = 2000.0;
+            .  .  static const fptype kernelRadiusMultiplier = 1.695;
+           10  .  static const Vec3 externalAcceleration(0.0, -9.8, 0.0);
+           36  .  => fluid.hpp:Vec3::Vec3(float, float, float) (2x)
+           10  .  static const Vec3 domainMin(-0.065, -0.08, -0.065);
+           36  .  => fluid.hpp:Vec3::Vec3(float, float, float) (2x)
+           10  .  static const Vec3 domainMax(0.065, 0.1, 0.065);
+           36  .  => fluid.hpp:Vec3::Vec3(float, float, float) (2x)
+            .  .  static const fptype Zero = 0.0;
+            .  .  //Constants for file I/O
+            .  .  #define FILE_SIZE_INT 4
+            .  .  #define FILE_SIZE_FLOAT 4
+            .  .  
+            .  .  #endif //__FLUID_HPP__
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: parsec_barrier.cpp
+--------------------------------------------------------------------------------
+         Ir Ge 
+
+-- line 42 ----------------------------------------
+          .  .  //Maximum amount of iterations to spin on flag before falling back to blocking
+          .  .  //NOTE: A value of 350 corresponds to about 1 us on modern computers
+          .  .  //Set value so we spin no more than 0.1 ms
+          .  .  static const spin_counter_t SPIN_COUNTER_MAX=350*100;
+          .  .  #endif //ENABLE_SPIN_BARRIER
+          .  .  
+          .  .  
+          .  .  //Barrier initialization & destruction
+          6  .  int parsec_barrier_init(parsec_barrier_t *barrier, const parsec_barrierattr_t *attr, unsigned count) {
+          .  .    int rv;
+          .  .  
+          .  .  #if defined(DEBUG) && defined(ENABLE_AUTOMATIC_DROPIN)
+          .  .    //Print a notification once if automatic drop-in is enabled
+          .  .    static int flag = 0;
+          .  .    if(!flag) {
+          .  .      printf("PARSEC barrier drop-in replacement enabled.\n");
+          .  .      flag = 1;
+          .  .    }
+          .  .  #endif //DEBUG
+          .  .  
+          .  .    //check assumptions used in header
+          .  .    assert(PARSEC_BARRIER_SERIAL_THREAD != 0);
+          .  .  
+          .  .    //check arguments
+          2  .    if(barrier==NULL) return EINVAL;
+          2  .    if(count<=0) return EINVAL;
+          .  .    //only private barriers (the default) are currently supported
+          2  .    if(attr!=NULL && *attr==PARSEC_PROCESS_PRIVATE) NOT_IMPLEMENTED();
+          .  .  
+          3  .    barrier->max = count;
+          2  .    barrier->n = 0;
+          2  .    barrier->is_arrival_phase = 1;
+          .  .  
+          6  .    rv = pthread_mutex_init(&barrier->mutex, NULL);
+         28  .  => ???:pthread_mutex_init (1x)
+          2  .    if(rv != 0) return rv;
+         11  .    rv= pthread_cond_init(&barrier->cond, NULL);
+         15  .  => ???:pthread_cond_init@@GLIBC_2.3.2 (1x)
+      1,532  .  => ???:_dl_runtime_resolve (1x)
+          1  .    return rv;
+          2  .  }
+          .  .  
+          4  .  int parsec_barrier_destroy(parsec_barrier_t *barrier) {
+          .  .    int rv;
+          .  .  
+          2  .    assert(barrier!=NULL);
+          .  .  
+          5  .    rv = pthread_mutex_destroy(&barrier->mutex);
+         10  .  => ???:pthread_mutex_destroy (1x)
+          2  .    if(rv != 0) return rv;
+         10  .    rv= pthread_cond_destroy(&barrier->cond);
+         33  1  => ???:pthread_cond_destroy@@GLIBC_2.3.2 (1x)
+      1,644  1  => ???:_dl_runtime_resolve (1x)
+          2  .    if(rv != 0) return rv;
+          .  .  
+          .  .    //If the barrier is still in use then the pthread_*_destroy functions should
+          .  .    //have returned an error, but we check anyway to catch any other unexpected errors.
+          6  .    if(barrier->n != 0) return EBUSY;
+          1  .    return 0;
+          2  .  }
+          .  .  
+          .  .  //Barrier attribute initialization & destruction
+          .  .  int parsec_barrierattr_destroy(parsec_barrierattr_t *attr) {
+          .  .    if(attr==NULL) return EINVAL;
+          .  .    //simply do nothing
+          .  .    return 0;
+          .  .  }
+          .  .  
+-- line 103 ----------------------------------------
+-- line 119 ----------------------------------------
+          .  .    if(pshared!=PARSEC_PROCESS_SHARED && pshared!=PARSEC_PROCESS_PRIVATE) return EINVAL;
+          .  .    //Currently we only support private barriers (the default)
+          .  .    if(pshared!=PARSEC_PROCESS_PRIVATE) NOT_IMPLEMENTED();
+          .  .    *attr = pshared;
+          .  .    return 0;
+          .  .  }
+          .  .  
+          .  .  //Barrier usage
+      8,000  .  int parsec_barrier_wait(parsec_barrier_t *barrier) {
+          .  .    int master;
+          .  .    int rv;
+          .  .  
+      4,000  .    if(barrier==NULL) return EINVAL;
+          .  .  
+     10,004  .    rv = pthread_mutex_lock(&barrier->mutex);
+     50,000 2,000  => ???:pthread_mutex_lock (2000x)
+      1,335  1  => ???:_dl_runtime_resolve (1x)
+      4,000  .    if(rv != 0) return rv;
+          .  .    //First we must wait to be sure that all threads from a previous barrier use had
+          .  .    //the chance to leave (departure phase complete) before we can reuse the barrier
+          .  .  #ifndef ENABLE_SPIN_BARRIER
+          .  .    //Standard method to block on a condition variable (with simple error propagation)
+          .  .    while(!barrier->is_arrival_phase) {
+          .  .      rv = pthread_cond_wait(&barrier->cond, &barrier->mutex);
+          .  .      if(rv != 0) {
+          .  .        pthread_mutex_unlock(&barrier->mutex);
+          .  .        return rv;
+          .  .      }
+          .  .    }
+          .  .  #else
+          .  .    //A (necessarily) unsynchronized polling loop followed by fall-back blocking
+     12,000  .    if(!barrier->is_arrival_phase) {
+      3,624  .      pthread_mutex_unlock(&barrier->mutex);
+     15,402 906  => ???:pthread_mutex_unlock (906x)
+        906  .      volatile spin_counter_t i=0;
+475,659,060  .      while(!barrier->is_arrival_phase && i<SPIN_COUNTER_MAX) i++;
+      8,154  .      while((rv=pthread_mutex_trylock(&barrier->mutex)) == EBUSY);
+     35,334 906  => ???:pthread_mutex_trylock (906x)
+      1,812  .      if(rv != 0) return rv;
+          .  .  
+          .  .      //Fall back to normal waiting on condition variable if necessary
+     10,872  .      while(!barrier->is_arrival_phase) {
+      7,248  .        rv = pthread_cond_wait(&barrier->cond, &barrier->mutex);
+    117,000 7,254  => ???:pthread_cond_wait@@GLIBC_2.3.2 (906x)
+      1,812  .        if(rv != 0) {
+          .  .          pthread_mutex_unlock(&barrier->mutex);
+          .  .          return rv;
+          .  .        }
+          .  .      }
+          .  .    }
+          .  .  #endif //ENABLE_SPIN_BARRIER
+          .  .  
+          .  .    //We are guaranteed to be in an arrival phase, proceed with barrier synchronization
+     12,000  .    master = (barrier->n == 0); //Make first thread at barrier the master
+     10,000  .    barrier->n++;
+     16,000  .    if(barrier->n >= barrier->max) {
+          .  .      //This is the last thread to arrive, don't wait instead
+          .  .      //start a new departure phase and wake up all other threads
+      2,000  .      barrier->is_arrival_phase = 0;
+      6,004  .      pthread_cond_broadcast(&barrier->cond);
+      1,434  1  => ???:_dl_runtime_resolve (1x)
+     33,811 2,000  => ???:pthread_cond_broadcast@@GLIBC_2.3.2 (1000x)
+          .  .    } else {
+          .  .      //wait for last thread to arrive (which will end arrival phase)
+          .  .  #ifndef ENABLE_SPIN_BARRIER
+          .  .      //Standard method to block on a condition variable
+          .  .      while(barrier->is_arrival_phase) pthread_cond_wait(&barrier->cond, &barrier->mutex);
+          .  .  #else
+          .  .      //we use again an unsynchronized polling loop followed by synchronized fall-back blocking
+      6,000  .      if(barrier->is_arrival_phase) {
+      4,004  .        pthread_mutex_unlock(&barrier->mutex);
+     28,088 1,000  => ???:pthread_mutex_unlock (1000x)
+      1,475  1  => ???:_dl_runtime_resolve (1x)
+      1,000  .        volatile spin_counter_t i=0;
+520,301,098  .        while(barrier->is_arrival_phase && i<SPIN_COUNTER_MAX) i++;
+      9,004  .        while((rv=pthread_mutex_trylock(&barrier->mutex)) == EBUSY);
+      1,380  1  => ???:_dl_runtime_resolve (1x)
+     39,000 1,000  => ???:pthread_mutex_trylock (1000x)
+      2,000  .        if(rv != 0) return rv;
+          .  .  
+          .  .        //Fall back to normal waiting on condition variable if necessary
+     11,946  .        while(barrier->is_arrival_phase) {
+      7,932  .          rv = pthread_cond_wait(&barrier->cond, &barrier->mutex);
+      1,320  1  => ???:_dl_runtime_resolve (1x)
+    127,860 7,929  => ???:pthread_cond_wait@@GLIBC_2.3.2 (991x)
+      1,982  .          if(rv != 0) {
+          .  .            pthread_mutex_unlock(&barrier->mutex);
+          .  .            return rv;
+          .  .          }
+          .  .        }
+          .  .      }
+          .  .  #endif //ENABLE_SPIN_BARRIER
+          .  .    }
+     10,000  .    barrier->n--;
+          .  .    //last thread to leave barrier starts a new arrival phase
+     12,000  .    if(barrier->n == 0) {
+      2,000  .      barrier->is_arrival_phase = 1;
+      5,000  .      pthread_cond_broadcast(&barrier->cond);
+     32,026 2,000  => ???:pthread_cond_broadcast@@GLIBC_2.3.2 (1000x)
+          .  .    }
+      8,000  .    pthread_mutex_unlock(&barrier->mutex);
+     49,470 2,000  => ???:pthread_mutex_unlock (2000x)
+          .  .  
+      7,000  .    return (master ? PARSEC_BARRIER_SERIAL_THREAD : 0);
+      4,000  .  }
+          .  .  
+          .  .  
+          .  .  
+          .  .  //Uncomment this macro to add a small program for debugging purposes
+          .  .  //#define ENABLE_BARRIER_CHECKER
+          .  .  
+          .  .  #ifdef ENABLE_BARRIER_CHECKER
+          .  .  
+-- line 216 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp
+--------------------------------------------------------------------------------
+  No information has been collected for /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: pthreads.cpp
+--------------------------------------------------------------------------------
+           Ir Ge 
+
+-- line 35 ----------------------------------------
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  cellpool *pools; //each thread has its private cell pool
+            .  .  
+            .  .  fptype restParticlesPerMeter, h, hSq;
+            .  .  fptype densityCoeff, pressureCoeff, viscosityCoeff;
+            .  .  
+            .  .  int nx, ny, nz;    // number of grid cells in each dimension
+            2  .  Vec3 delta;        // cell dimensions
+            6  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::Vec3() (1x)
+            .  .  int numParticles = 0;
+            .  .  int numCells = 0;
+            .  .  Cell *cells = 0;
+            .  .  Cell *cells2 = 0;
+            .  .  int *cnumPars = 0;
+            .  .  int *cnumPars2 = 0;
+            .  .  Cell **last_cells = NULL; //helper array with pointers to last cell structure of "cells" array lists
+            .  .  #ifdef ENABLE_VISUALIZATION
+-- line 51 ----------------------------------------
+-- line 91 ----------------------------------------
+            .  .   *
+            .  .   * Computes the hamming weight of x
+            .  .   *
+            .  .   * x      - input value
+            .  .   * lsb    - if x!=0 position of smallest bit set, else -1
+            .  .   *
+            .  .   * return - the hamming weight
+            .  .   */
+            4  .  unsigned int hmgweight(unsigned int x, int *lsb) {
+            1  .    unsigned int weight=0;
+            1  .    unsigned int mask= 1;
+            1  .    unsigned int count=0;
+            .  .  
+            2  .    *lsb=-1;
+            8  .    while(x > 0) {
+            .  .      unsigned int temp;
+            6  .      temp=(x&mask);
+            8  .      if((x&mask) == 1) {
+            1  .        weight++;
+            7  .        if(*lsb == -1) *lsb = count;
+            .  .      }
+            2  .      x >>= 1;
+            2  .      count++;
+            .  .    }
+            .  .  
+            1  .    return weight;
+            2  .  }
+            .  .  
+            .  .  void InitSim(char const *fileName, unsigned int threadnum)
+            8  .  {
+            .  .    //Compute partitioning based on square root of number of threads
+            .  .    //NOTE: Other partition sizes are possible as long as XDIVS * ZDIVS == threadnum,
+            .  .    //      but communication is minimal (and hence optimal) if XDIVS == ZDIVS
+            .  .    int lsb;
+            9  .    if(hmgweight(threadnum,&lsb) != 1) {
+           46  .  => pthreads.cpp:hmgweight(unsigned int, int*) (1x)
+            .  .      std::cerr << "Number of threads must be a power of 2" << std::endl;
+            .  .      exit(1);
+            .  .    }
+           10  .    XDIVS = 1<<(lsb/2);
+           10  .    ZDIVS = 1<<(lsb/2);
+            8  .    if(XDIVS*ZDIVS != threadnum) XDIVS*=2;
+            5  .    assert(XDIVS * ZDIVS == threadnum);
+            .  .  
+           17  .    thread = new pthread_t[NUM_GRIDS];
+          792  .  => ???:_dl_runtime_resolve (1x)
+          844  .  => ???:operator new[](unsigned long) (1x)
+           13  .    grids = new struct Grid[NUM_GRIDS];
+          194  .  => ???:operator new[](unsigned long) (1x)
+            .  .    assert(sizeof(Grid) <= CACHELINE_SIZE); // as we put and aligh grid on the cacheline size to avoid false-sharing
+            .  .                                            // if asserts fails - increase pp union member in Grid declarationi
+            .  .                                            // and change this macro 
+           16  .    pools = new cellpool[NUM_GRIDS];
+          202  .  => ???:operator new[](unsigned long) (1x)
+            .  .  
+            .  .    //Load input particles
+           18  .    std::cout << "Loading file \"" << fileName << "\"..." << std::endl;
+          343  .  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (1x)
+          996  .  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (3x)
+           19  .    std::ifstream file(fileName, std::ios::binary);
+       13,587  2  => ???:std::basic_ifstream<char, std::char_traits<char> >::~basic_ifstream() (1x)
+        3,097  .  => ???:_dl_runtime_resolve (2x)
+       14,386 10  => ???:std::basic_ifstream<char, std::char_traits<char> >::basic_ifstream(char const*, std::_Ios_Openmode) (1x)
+           11  .    if(!file) {
+            3  .  => ???:std::basic_ios<char, std::char_traits<char> >::operator!() const (1x)
+        1,331  .  => ???:_dl_runtime_resolve (1x)
+            .  .      std::cerr << "Error opening file. Aborting." << std::endl;
+            .  .      exit(1);
+            .  .    }
+            .  .  
+            .  .    //Always use single precision float variables b/c file format uses single precision
+            .  .    float restParticlesPerMeter_le;
+            .  .    int numParticles_le;
+           11  .    file.read((char *)&restParticlesPerMeter_le, FILE_SIZE_FLOAT);
+        7,589  .  => ???:std::istream::read(char*, long) (1x)
+          918  .  => ???:_dl_runtime_resolve (1x)
+            7  .    file.read((char *)&numParticles_le, FILE_SIZE_INT);
+          153  .  => ???:std::istream::read(char*, long) (1x)
+            5  .    if(!isLittleEndian()) {
+            9  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:isLittleEndian() (1x)
+            .  .      restParticlesPerMeter = bswap_float(restParticlesPerMeter_le);
+            .  .      numParticles          = bswap_int32(numParticles_le);
+            .  .    } else {
+            2  .      restParticlesPerMeter = restParticlesPerMeter_le;
+            2  .      numParticles          = numParticles_le;
+            .  .    }
+           56  .    for(int i=0; i<NUM_GRIDS; i++) cellpool_init(&pools[i], numParticles/NUM_GRIDS);
+       85,468  8  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/cellpool.cpp:cellpool_init(cellpool*, int) (2x)
+            .  .  
+            4  .    h = kernelRadiusMultiplier / restParticlesPerMeter;
+            4  .    hSq = h*h;
+            .  .  
+            .  .  #ifndef ENABLE_DOUBLE_PRECISION
+           22  .    fptype coeff1 = 315.0 / (64.0*pi*powf(h,9.0));
+          942  .  => ???:_dl_runtime_resolve (1x)
+          294  .  => ???:powf (1x)
+           13  .    fptype coeff2 = 15.0 / (pi*powf(h,6.0));
+          294  .  => ???:powf (1x)
+           13  .    fptype coeff3 = 45.0 / (pi*powf(h,6.0));
+          294  .  => ???:powf (1x)
+            .  .  #else
+            .  .    fptype coeff1 = 315.0 / (64.0*pi*pow(h,9.0));
+            .  .    fptype coeff2 = 15.0 / (pi*pow(h,6.0));
+            .  .    fptype coeff3 = 45.0 / (pi*pow(h,6.0));
+            .  .  #endif //ENABLE_DOUBLE_PRECISION
+           13  .    fptype particleMass = 0.5*doubleRestDensity / (restParticlesPerMeter*restParticlesPerMeter*restParticlesPerMeter);
+            3  .    densityCoeff = particleMass * coeff1;
+           12  .    pressureCoeff = 3.0*coeff2 * 0.50*stiffnessPressure * particleMass;
+            4  .    viscosityCoeff = viscosity * coeff3 * particleMass;
+            .  .  
+            7  .    Vec3 range = domainMax - domainMin;
+           55  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-(Vec3 const&) const (1x)
+            5  .    nx = (int)(range.x / h);
+            5  .    ny = (int)(range.y / h);
+            5  .    nz = (int)(range.z / h);
+            9  .    assert(nx >= 1 && ny >= 1 && nz >= 1);
+            6  .    numCells = nx*ny*nz;
+           17  .    std::cout << "Number of cells: " << numCells << std::endl;
+          859  .  => ???:_dl_runtime_resolve (1x)
+          343  .  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (1x)
+        2,662  .  => ???:std::ostream::operator<<(int) (1x)
+          364  .  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (1x)
+            7  .    delta.x = range.x / nx;
+            7  .    delta.y = range.y / ny;
+            7  .    delta.z = range.z / nz;
+           21  .    assert(delta.x >= h && delta.y >= h && delta.z >= h);
+            .  .  
+           38  .    std::cout << "Grids steps over x, y, z: " << delta.x << " " << delta.y << " " << delta.z << std::endl;
+          843  .  => ???:_dl_runtime_resolve (1x)
+          343  .  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (1x)
+          928  .  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (3x)
+       14,120  .  => ???:std::ostream::operator<<(float) (3x)
+            .  .    
+            8  .    assert(nx >= XDIVS && nz >= ZDIVS);
+            1  .    int gi = 0;
+            .  .    int sx, sz, ex, ez;
+            1  .    ex = 0;
+           14  .    for(int i = 0; i < XDIVS; ++i)
+            .  .    {
+            4  .      sx = ex;
+           36  .      ex = (int)((fptype)(nx)/(fptype)(XDIVS) * (i+1) + 0.5);
+            6  .      assert(sx < ex);
+            .  .  
+            2  .      ez = 0;
+           20  .      for(int j = 0; j < ZDIVS; ++j, ++gi)
+            .  .      {
+            4  .        sz = ez;
+           36  .        ez = (int)((fptype)(nz)/(fptype)(ZDIVS) * (j+1) + 0.5);
+            6  .        assert(sz < ez);
+            .  .  
+           14  .        grids[gi].sx = sx;
+           14  .        grids[gi].ex = ex;
+           12  .        grids[gi].sy = 0;
+           14  .        grids[gi].ey = ny;
+           14  .        grids[gi].sz = sz;
+           14  .        grids[gi].ez = ez;
+            .  .      }
+            .  .    }
+            5  .    assert(gi == NUM_GRIDS);
+            .  .  
+            6  .    border = new bool[numCells];
+          192  .  => ???:operator new[](unsigned long) (1x)
+           20  .    for(int i = 0; i < NUM_GRIDS; ++i)
+          470  .      for(int iz = grids[i].sz; iz < grids[i].ez; ++iz)
+       14,300  .        for(int iy = grids[i].sy; iy < grids[i].ey; ++iy)
+      170,500  .          for(int ix = grids[i].sx; ix < grids[i].ex; ++ix)
+            .  .          {
+      150,040  .            int index = (iz*ny + iy)*nx + ix;
+       75,020  .            border[index] = false;
+      208,692  .            for(int dk = -1; dk <= 1; ++dk)
+            .  .  	  {
+      617,892  .              for(int dj = -1; dj <= 1; ++dj)
+            .  .  	    {
+    1,850,948  .                for(int di = -1; di <= 1; ++di)
+            .  .                {
+    1,484,032  .                  int ci = ix + di;
+    1,484,032  .                  int cj = iy + dj;
+    1,484,032  .                  int ck = iz + dk;
+            .  .  
+    2,232,186  .                  if(ci < 0) ci = 0; else if(ci > (nx-1)) ci = nx-1;
+    2,229,832  .                  if(cj < 0) cj = 0; else if(cj > (ny-1)) cj = ny-1;
+    2,231,380  .                  if(ck < 0) ck = 0; else if(ck > (nz-1)) ck = nz-1;
+            .  .  
+    6,669,960  .                  if( ci < grids[i].sx || ci >= grids[i].ex ||
+    5,914,304  .                    cj < grids[i].sy || cj >= grids[i].ey ||
+    5,175,016  .                    ck < grids[i].sz || ck >= grids[i].ez ) {
+            .  .                        
+        6,820  .                      border[index] = true;
+        1,364  .  		    break;
+            .  .  		}
+            .  .                } // for(int di = -1; di <= 1; ++di)
+      868,868  .  	      if(border[index])
+        1,364  .  		break;
+            .  .  	    } // for(int dj = -1; dj <= 1; ++dj)
+      295,988  .  	    if(border[index])
+        1,364  .  	       break;
+            .  .             } // for(int dk = -1; dk <= 1; ++dk)
+            .  .          }
+            .  .  
+            7  .    pthread_attr_init(&attr);
+        1,404  .  => ???:pthread_attr_init@@GLIBC_2.2.5 (1x)
+        1,313  .  => ???:_dl_runtime_resolve (1x)
+            8  .    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        1,463  .  => ???:_dl_runtime_resolve (1x)
+            7  .  => ???:pthread_attr_setdetachstate (1x)
+            .  .  
+           11  .    mutex = new pthread_mutex_t *[numCells];
+          329  .  => ???:operator new[](unsigned long) (1x)
+       75,024  .    for(int i = 0; i < numCells; ++i)
+            .  .    {
+            .  .      assert(CELL_MUTEX_ID < MUTEXES_PER_CELL);
+      136,400  .      int n = (border[i] ? MUTEXES_PER_CELL : CELL_MUTEX_ID+1);
+      285,076  .      mutex[i] = new pthread_mutex_t[n];
+    3,017,796  .  => ???:operator new[](unsigned long) (15004x)
+    1,001,176  .      for(int j = 0; j < n; ++j)
+    3,199,948  .        pthread_mutex_init(&mutex[i][j], NULL);
+        1,328  .  => ???:_dl_runtime_resolve (1x)
+    5,270,496  .  => ???:pthread_mutex_init (188232x)
+            .  .    }
+            7  .    pthread_barrier_init(&barrier, NULL, NUM_GRIDS);
+        1,616  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_init(parsec_barrier_t*, int const*, unsigned int) (1x)
+            .  .  #ifdef ENABLE_VISUALIZATION
+            .  .    //visualization barrier is used by all NUM_GRIDS worker threads and 1 master thread
+            .  .    pthread_barrier_init(&visualization_barrier, NULL, NUM_GRIDS+1);
+            .  .  #endif
+            .  .    //make sure Cell structure is multiple of estiamted cache line size
+            3  .    assert(sizeof(Cell) % CACHELINE_SIZE == 0);
+            .  .    //make sure helper Cell structure is in sync with real Cell structure
+            .  .    assert(offsetof(struct Cell_aux, padding) == offsetof(struct Cell, padding));
+            .  .  
+            .  .  #if defined(WIN32)
+            .  .    cells = (struct Cell*)_aligned_malloc(sizeof(struct Cell) * numCells, CACHELINE_SIZE);
+            .  .    cells2 = (struct Cell*)_aligned_malloc(sizeof(struct Cell) * numCells, CACHELINE_SIZE);
+            .  .    cnumPars = (int*)_aligned_malloc(sizeof(int) * numCells, CACHELINE_SIZE);
+            .  .    cnumPars2 = (int*)_aligned_malloc(sizeof(int) * numCells, CACHELINE_SIZE);
+-- line 285 ----------------------------------------
+-- line 288 ----------------------------------------
+            .  .  #elif defined(SPARC_SOLARIS)
+            .  .    cells = (Cell*)memalign(CACHELINE_SIZE, sizeof(struct Cell) * numCells);
+            .  .    cells2 =  (Cell*)memalign(CACHELINE_SIZE, sizeof(struct Cell) * numCells);
+            .  .    cnumPars =  (int*)memalign(CACHELINE_SIZE, sizeof(int) * numCells);
+            .  .    cnumPars2 =  (int*)memalign(CACHELINE_SIZE, sizeof(int) * numCells);
+            .  .    last_cells =  (Cell**)memalign(CACHELINE_SIZE, sizeof(struct Cell *) * numCells);
+            .  .    assert((cells!=0) && (cells2!=0) && (cnumPars!=0) && (cnumPars2!=0) && (last_cells!=0));
+            .  .  #else
+           12  .    int rv0 = posix_memalign((void **)(&cells), CACHELINE_SIZE, sizeof(struct Cell) * numCells);
+          319  4  => ???:posix_memalign (1x)
+           12  .    int rv1 = posix_memalign((void **)(&cells2), CACHELINE_SIZE, sizeof(struct Cell) * numCells);
+          319  4  => ???:posix_memalign (1x)
+            9  .    int rv2 = posix_memalign((void **)(&cnumPars), CACHELINE_SIZE, sizeof(int) * numCells);
+          454  .  => ???:posix_memalign (1x)
+            9  .    int rv3 = posix_memalign((void **)(&cnumPars2), CACHELINE_SIZE, sizeof(int) * numCells);
+          734 10  => ???:posix_memalign (1x)
+            9  .    int rv4 = posix_memalign((void **)(&last_cells), CACHELINE_SIZE, sizeof(struct Cell *) * numCells);
+          347  .  => ???:posix_memalign (1x)
+           10  .    assert((rv0==0) && (rv1==0) && (rv2==0) && (rv3==0) && (rv4==0));
+            .  .  #endif
+            .  .  
+            .  .    // because cells and cells2 are not allocated via new
+            .  .    // we construct them here
+       75,024  .    for(int i=0; i<numCells; ++i)
+            .  .    {
+      225,060  .  	  new (&cells[i]) Cell;
+   13,038,476  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Cell::Cell() (15004x)
+      105,028  .  => /usr/include/c++/5.1.1/new:operator new(unsigned long, void*) (15004x)
+      225,060  .  	  new (&cells2[i]) Cell;
+      105,028  .  => /usr/include/c++/5.1.1/new:operator new(unsigned long, void*) (15004x)
+   13,038,476  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Cell::Cell() (15004x)
+            .  .    }
+            .  .  
+           12  .    memset(cnumPars, 0, numCells*sizeof(int));
+        6,575  .  => ???:__GI_memset (1x)
+        1,275  .  => ???:_dl_runtime_resolve (1x)
+            .  .  
+            .  .    //Always use single precision float variables b/c file format uses single precision float
+            1  .    int pool_id = 0;
+            .  .    float px, py, pz, hvx, hvy, hvz, vx, vy, vz;
+       75,694  .    for(int i = 0; i < numParticles; ++i)
+            .  .    {
+      105,966  .      file.read((char *)&px, FILE_SIZE_FLOAT);
+    2,317,378  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&py, FILE_SIZE_FLOAT);
+    2,317,064  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&pz, FILE_SIZE_FLOAT);
+    2,317,202  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&hvx, FILE_SIZE_FLOAT);
+    2,317,378  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&hvy, FILE_SIZE_FLOAT);
+    2,317,378  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&hvz, FILE_SIZE_FLOAT);
+    2,317,378  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&vx, FILE_SIZE_FLOAT);
+    2,317,060  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&vy, FILE_SIZE_FLOAT);
+    2,317,236  .  => ???:std::istream::read(char*, long) (15138x)
+      105,966  .      file.read((char *)&vz, FILE_SIZE_FLOAT);
+    2,317,378  .  => ???:std::istream::read(char*, long) (15138x)
+       75,690  .      if(!isLittleEndian()) {
+      136,242  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:isLittleEndian() (15138x)
+            .  .        px  = bswap_float(px);
+            .  .        py  = bswap_float(py);
+            .  .        pz  = bswap_float(pz);
+            .  .        hvx = bswap_float(hvx);
+            .  .        hvy = bswap_float(hvy);
+            .  .        hvz = bswap_float(hvz);
+            .  .        vx  = bswap_float(vx);
+            .  .        vy  = bswap_float(vy);
+            .  .        vz  = bswap_float(vz);
+            .  .      }
+            .  .  
+      105,966  .      int ci = (int)((px - domainMin.x) / delta.x);
+      105,966  .      int cj = (int)((py - domainMin.y) / delta.y);
+      105,966  .      int ck = (int)((pz - domainMin.z) / delta.z);
+            .  .  
+       91,842  .      if(ci < 0) ci = 0; else if(ci > (nx-1)) ci = nx-1;
+       90,828  .      if(cj < 0) cj = 0; else if(cj > (ny-1)) cj = ny-1;
+       91,869  .      if(ck < 0) ck = 0; else if(ck > (nz-1)) ck = nz-1;
+            .  .  
+      151,380  .      int index = (ck*ny + cj)*nx + ci;
+      136,242  .      Cell *cell = &cells[index];
+            .  .  
+            .  .      //go to last cell structure in list
+      105,966  .      int np = cnumPars[index];
+       30,591  .      while(np > PARTICLES_PER_CELL) {
+          315  .        cell = cell->next;
+          105  .        np = np - PARTICLES_PER_CELL;
+            .  .      }
+            .  .      //add another cell structure if everything full
+       77,296  .      if( (np % PARTICLES_PER_CELL == 0) && (cnumPars[index] != 0) ) {
+            .  .        //Get cells from pools in round-robin fashion to balance load during parallel phase
+          858  .        cell->next = cellpool_getcell(&pools[pool_id]);
+        1,452  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/cellpool.cpp:cellpool_getcell(cellpool*) (66x)
+          528  .        pool_id = (pool_id+1) % NUM_GRIDS;
+          198  .        cell = cell->next;
+           66  .        np = np - PARTICLES_PER_CELL;
+            .  .      }
+            .  .  
+      151,380  .      cell->p[np].x = px;
+      166,518  .      cell->p[np].y = py;
+      166,518  .      cell->p[np].z = pz;
+      166,518  .      cell->hv[np].x = hvx;
+      166,518  .      cell->hv[np].y = hvy;
+      166,518  .      cell->hv[np].z = hvz;
+      166,518  .      cell->v[np].x = vx;
+      166,518  .      cell->v[np].y = vy;
+      166,518  .      cell->v[np].z = vz;
+            .  .  #ifdef ENABLE_VISUALIZATION
+            .  .  	vMin.x = std::min(vMin.x, cell->v[np].x);
+            .  .  	vMax.x = std::max(vMax.x, cell->v[np].x);
+            .  .  	vMin.y = std::min(vMin.y, cell->v[np].y);
+            .  .  	vMax.y = std::max(vMax.y, cell->v[np].y);
+            .  .  	vMin.z = std::min(vMin.z, cell->v[np].z);
+            .  .  	vMax.z = std::max(vMax.z, cell->v[np].z);
+            .  .  #endif
+      121,104  .      ++cnumPars[index];
+            .  .    }
+            .  .  
+           13  .    std::cout << "Number of particles: " << numParticles << std::endl;
+          451  .  => ???:std::ostream::operator<<(int) (1x)
+          388  .  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (1x)
+          343  .  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (1x)
+            7  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void SaveFile(char const *fileName)
+            5  .  {
+           18  .    std::cout << "Saving file \"" << fileName << "\"..." << std::endl;
+          875  6  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (3x)
+          378  6  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (1x)
+            .  .  
+           19  .    std::ofstream file(fileName, std::ios::binary);
+        3,289 20  => ???:std::basic_ofstream<char, std::char_traits<char> >::basic_ofstream(char const*, std::_Ios_Openmode) (1x)
+        3,087  2  => ???:_dl_runtime_resolve (2x)
+        4,172 17  => ???:std::basic_ofstream<char, std::char_traits<char> >::~basic_ofstream() (1x)
+           11  .    assert(file);
+            4  .  => ???:std::basic_ios<char, std::char_traits<char> >::operator void*() const (1x)
+        1,376  1  => ???:_dl_runtime_resolve (1x)
+            .  .  
+            .  .    //Always use single precision float variables b/c file format uses single precision
+            5  .    if(!isLittleEndian()) {
+            9  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:isLittleEndian() (1x)
+            .  .      float restParticlesPerMeter_le;
+            .  .      int   numParticles_le;
+            .  .  
+            .  .      restParticlesPerMeter_le = bswap_float((float)restParticlesPerMeter);
+            .  .      numParticles_le      = bswap_int32(numParticles);
+            .  .      file.write((char *)&restParticlesPerMeter_le, FILE_SIZE_FLOAT);
+            .  .      file.write((char *)&numParticles_le,      FILE_SIZE_INT);
+            .  .    } else {
+           10  .      file.write((char *)&restParticlesPerMeter, FILE_SIZE_FLOAT);
+        1,280  1  => ???:std::ostream::write(char const*, long) (1x)
+          963  1  => ???:_dl_runtime_resolve (1x)
+            6  .      file.write((char *)&numParticles,      FILE_SIZE_INT);
+          163  .  => ???:std::ostream::write(char const*, long) (1x)
+            .  .    }
+            .  .  
+            1  .    int count = 0;
+       75,024  .    for(int i = 0; i < numCells; ++i)
+            .  .    {
+      135,036  .      Cell *cell = &cells[i];
+      105,028  .      int np = cnumPars[i];
+      135,706  .      for(int j = 0; j < np; ++j)
+            .  .      {
+            .  .        //Always use single precision float variables b/c file format uses single precision
+            .  .        float px, py, pz, hvx, hvy, hvz, vx,vy, vz;
+       75,690  .        if(!isLittleEndian()) {
+      136,242  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:isLittleEndian() (15138x)
+            .  .          px  = bswap_float((float)(cell->p[j % PARTICLES_PER_CELL].x));
+            .  .          py  = bswap_float((float)(cell->p[j % PARTICLES_PER_CELL].y));
+            .  .          pz  = bswap_float((float)(cell->p[j % PARTICLES_PER_CELL].z));
+            .  .          hvx = bswap_float((float)(cell->hv[j % PARTICLES_PER_CELL].x));
+            .  .          hvy = bswap_float((float)(cell->hv[j % PARTICLES_PER_CELL].y));
+            .  .          hvz = bswap_float((float)(cell->hv[j % PARTICLES_PER_CELL].z));
+            .  .          vx  = bswap_float((float)(cell->v[j % PARTICLES_PER_CELL].x));
+            .  .          vy  = bswap_float((float)(cell->v[j % PARTICLES_PER_CELL].y));
+            .  .          vz  = bswap_float((float)(cell->v[j % PARTICLES_PER_CELL].z));
+            .  .        } else {
+      227,070  .          px  = (float)(cell->p[j % PARTICLES_PER_CELL].x);
+      242,208  .          py  = (float)(cell->p[j % PARTICLES_PER_CELL].y);
+      242,208  .          pz  = (float)(cell->p[j % PARTICLES_PER_CELL].z);
+      242,208  .          hvx = (float)(cell->hv[j % PARTICLES_PER_CELL].x);
+      242,208  .          hvy = (float)(cell->hv[j % PARTICLES_PER_CELL].y);
+      242,208  .          hvz = (float)(cell->hv[j % PARTICLES_PER_CELL].z);
+      242,208  .          vx  = (float)(cell->v[j % PARTICLES_PER_CELL].x);
+      242,208  .          vy  = (float)(cell->v[j % PARTICLES_PER_CELL].y);
+      242,208  .          vz  = (float)(cell->v[j % PARTICLES_PER_CELL].z);
+            .  .        }
+      105,966  .        file.write((char *)&px,  FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&py,  FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&pz,  FILE_SIZE_FLOAT);
+    2,470,276 18  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&hvx, FILE_SIZE_FLOAT);
+    2,468,054 16  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&hvy, FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&hvz, FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&vx,  FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&vy,  FILE_SIZE_FLOAT);
+    2,468,054 16  => ???:std::ostream::write(char const*, long) (15138x)
+      105,966  .        file.write((char *)&vz,  FILE_SIZE_FLOAT);
+    2,467,984 14  => ???:std::ostream::write(char const*, long) (15138x)
+       15,138  .        ++count;
+            .  .  
+            .  .        //move pointer to next cell in list if end of array is reached
+      121,104  .        if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+            3  .          cell = cell->next;
+            .  .        }
+            .  .  
+            .  .      }
+            .  .    }
+            3  .    assert(count == numParticles);
+            5  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void CleanUpSim()
+            3  .  {
+            .  .    // first return extended cells to cell pools
+       75,024  .    for(int i=0; i< numCells; ++i)
+            .  .    {
+      135,036  .      Cell& cell = cells[i];
+       60,016  .  	while(cell.next)
+            .  .  	{
+            .  .  		Cell *temp = cell.next;
+            .  .  		cell.next = temp->next;
+            .  .  		cellpool_returncell(&pools[0], temp);
+            .  .  	}
+            .  .    }
+            .  .    // now return cell pools
+            .  .    //NOTE: Cells from cell pools can migrate to different pools during the parallel phase.
+            .  .    //      This is no problem as long as all cell pools are destroyed together. Each pool
+            .  .    //      uses its internal meta information to free exactly the cells which it allocated
+            .  .    //      itself. This guarantees that all allocated cells will be freed but it might
+            .  .    //      render other cell pools unusable so they also have to be destroyed.
+           40  .    for(int i=0; i<NUM_GRIDS; i++) cellpool_destroy(&pools[i]);
+        1,515  5  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/cellpool.cpp:cellpool_destroy(cellpool*) (2x)
+            7  .    pthread_attr_destroy(&attr);
+        1,420  1  => ???:_dl_runtime_resolve (1x)
+        1,372  1  => ???:pthread_attr_destroy (1x)
+            .  .  
+       75,024  .    for(int i = 0; i < numCells; ++i)
+            .  .    {
+            .  .      assert(CELL_MUTEX_ID < MUTEXES_PER_CELL);
+      136,400  .      int n = (border[i] ? MUTEXES_PER_CELL : CELL_MUTEX_ID+1);
+    1,001,176  .      for(int j = 0; j < n; ++j)
+    3,011,716  .        pthread_mutex_destroy(&mutex[i][j]);
+        1,380  1  => ???:_dl_runtime_resolve (1x)
+    1,882,320  .  => ???:pthread_mutex_destroy (188232x)
+      255,072  .      delete[] mutex[i];
+    1,194,864 30,008  => ???:operator delete[](void*) (15004x)
+          798  1  => ???:_dl_runtime_resolve (1x)
+            .  .    }
+            7  .    delete[] mutex;
+      611,952 13  => ???:operator delete[](void*) (1x)
+            2  .    pthread_barrier_destroy(&barrier);
+        1,721  2  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_destroy(parsec_barrier_t*) (1x)
+            .  .  #ifdef ENABLE_VISUALIZATION
+            .  .    pthread_barrier_destroy(&visualization_barrier);
+            .  .  #endif
+            .  .  
+            7  .    delete[] border;
+          148  2  => ???:operator delete[](void*) (1x)
+            .  .  
+            .  .  #if defined(WIN32)
+            .  .    _aligned_free(cells);
+            .  .    _aligned_free(cells2);
+            .  .    _aligned_free(cnumPars);
+            .  .    _aligned_free(cnumPars2);
+            .  .    _aligned_free(last_cells);
+            .  .  #else
+            4  .    free(cells);
+           60  2  => ???:free (1x)
+            4  .    free(cells2);
+           60  2  => ???:free (1x)
+            4  .    free(cnumPars);
+          130  2  => ???:free (1x)
+            4  .    free(cnumPars2);
+          130  2  => ???:free (1x)
+            4  .    free(last_cells);
+          117  2  => ???:free (1x)
+            .  .  #endif
+            7  .    delete[] thread;
+           76  2  => ???:operator delete[](void*) (1x)
+            7  .    delete[] grids;
+          106  2  => ???:operator delete[](void*) (1x)
+            3  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void ClearParticlesMT(int tid)
+          600  .  {
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+    9,002,400  .          cnumPars[index] = 0;
+   13,503,600  .  		cells[index].next = NULL;
+   21,005,600  .          last_cells[index] = &cells[index];
+            .  .        }
+          600  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void RebuildGridMT(int tid)
+          800  .  {
+            .  .    // Note, in parallel versions the below swaps
+            .  .    // occure outside RebuildGrid()
+            .  .    // swap src and dest arrays with particles
+            .  .    //   std::swap(cells, cells2);
+            .  .    // swap src and dest arrays with counts of particles
+            .  .    //  std::swap(cnumPars, cnumPars2);
+            .  .  
+            .  .    //iterate through source cell lists
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index2 = (iz*ny + iy)*nx + ix;
+   13,503,600  .          Cell *cell2 = &cells2[index2];
+   10,502,800  .          int np2 = cnumPars2[index2];
+            .  .          //iterate through source particles
+   13,570,600  .          for(int j = 0; j < np2; ++j)
+            .  .          {
+            .  .            //get destination for source particle
+   30,276,000  .            int ci = (int)((cell2->p[j % PARTICLES_PER_CELL].x - domainMin.x) / delta.x);
+   31,789,800  .            int cj = (int)((cell2->p[j % PARTICLES_PER_CELL].y - domainMin.y) / delta.y);
+   31,789,800  .            int ck = (int)((cell2->p[j % PARTICLES_PER_CELL].z - domainMin.z) / delta.z);
+            .  .  
+    9,083,814  .            if(ci < 0) ci = 0; else if(ci > (nx-1)) ci = nx-1;
+    9,082,800  .            if(cj < 0) cj = 0; else if(cj > (ny-1)) cj = ny-1;
+    9,083,847  .            if(ck < 0) ck = 0; else if(ck > (nz-1)) ck = nz-1;
+            .  .  #if 0
+            .  .  		  assert(ci>=ix-1);
+            .  .  		  assert(ci<=ix+1);
+            .  .  		  assert(cj>=iy-1);
+            .  .  		  assert(cj<=iy+1);
+            .  .  		  assert(ck>=iz-1);
+            .  .  		  assert(ck<=iz+1);
+            .  .  #endif
+-- line 572 ----------------------------------------
+-- line 592 ----------------------------------------
+            .  .                }
+            .  .            if(!cfl_cond_satisfied)
+            .  .            {
+            .  .              std::cerr << "FATAL ERROR: Courant–Friedrichs–Lewy condition not satisfied." << std::endl;
+            .  .              exit(1);
+            .  .            }
+            .  .  #endif //ENABLE_CFL_CHECK
+            .  .  
+   15,138,000  .            int index = (ck*ny + cj)*nx + ci;
+            .  .            // this assumes that particles cannot travel more than one grid cell per time step
+   10,596,600  .            if(border[index])
+    1,254,753  .              pthread_mutex_lock(&mutex[index][CELL_MUTEX_ID]);
+    3,485,425 139,417  => ???:pthread_mutex_lock (139417x)
+   10,596,600  .            Cell *cell = last_cells[index];
+   10,596,600  .            int np = cnumPars[index];
+            .  .  
+            .  .            //add another cell structure if everything full
+    8,465,488  .            if( (np % PARTICLES_PER_CELL == 0) && (cnumPars[index] != 0) ) {
+        2,977  .              cell->next = cellpool_getcell(&pools[tid]);
+        5,038  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/cellpool.cpp:cellpool_getcell(cellpool*) (229x)
+          687  .              cell = cell->next;
+        1,603  .              last_cells[index] = cell;
+            .  .            }
+   12,110,400  .            ++cnumPars[index];
+   10,596,600  .            if(border[index])
+    1,254,753  .              pthread_mutex_unlock(&mutex[index][CELL_MUTEX_ID]);
+    2,370,089 139,417  => ???:pthread_mutex_unlock (139417x)
+            .  .  
+            .  .            //copy source to destination particle
+            .  .            
+   48,441,600  .            cell->p[np % PARTICLES_PER_CELL]  = cell2->p[j % PARTICLES_PER_CELL];
+   51,469,200  .            cell->hv[np % PARTICLES_PER_CELL] = cell2->hv[j % PARTICLES_PER_CELL];
+   51,469,200  .            cell->v[np % PARTICLES_PER_CELL]  = cell2->v[j % PARTICLES_PER_CELL];
+            .  .            //move pointer to next source cell in list if end of array is reached
+   12,110,400  .            if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          790  .              Cell *temp = cell2;
+        1,185  .              cell2 = cell2->next;
+            .  .              //return cells to pool that are not statically allocated head of lists
+        3,950  .              if(temp != &cells2[index2]) {
+            .  .                //NOTE: This is thread-safe because temp and pool are thread-private, no need to synchronize
+            .  .                cellpool_returncell(&pools[tid], temp);
+            .  .              }
+            .  .            }
+            .  .          } // for(int j = 0; j < np2; ++j)
+            .  .          //return cells to pool that are not statically allocated head of lists
+   18,003,800  .          if((cell2 != NULL) && (cell2 != &cells2[index2])) {
+        3,540  .            cellpool_returncell(&pools[tid], cell2);
+        5,605  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/cellpool.cpp:cellpool_returncell(cellpool*, Cell*) (295x)
+            .  .      }
+            .  .        }
+          600  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  int InitNeighCellList(int ci, int cj, int ck, int *neighCells)
+    3,612,684  .  {
+      602,114  .    int numNeighCells = 0;
+            .  .  
+            .  .    // have the nearest particles first -> help branch prediction
+    6,021,140  .    int my_index = (ck*ny + cj)*nx + ci;
+    4,214,798  .    neighCells[numNeighCells] = my_index;
+      602,114  .    ++numNeighCells;
+            .  .   
+    9,031,710  .    for(int di = -1; di <= 1; ++di)
+   27,095,130  .      for(int dj = -1; dj <= 1; ++dj)
+   81,285,390  .        for(int dk = -1; dk <= 1; ++dk)
+            .  .        {
+   65,028,312  .          int ii = ci + di;
+   65,028,312  .          int jj = cj + dj;
+   65,028,312  .          int kk = ck + dk;
+  232,012,650  .          if(ii >= 0 && ii < nx && jj >= 0 && jj < ny && kk >= 0 && kk < nz)
+            .  .          {
+  146,674,180  .            int index = (kk*ny + jj)*nx + ii;
+   99,133,118  .            if((index < my_index) && (cnumPars[index] != 0))
+            .  .            {
+   41,942,460  .              neighCells[numNeighCells] = index;
+    5,991,780  .              ++numNeighCells;
+            .  .            }
+            .  .          }
+            .  .        }
+      602,114  .    return numNeighCells;
+    1,204,228  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void InitDensitiesAndForcesMT(int tid)
+          600  .  {
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .                      int index = (iz*ny + iy)*nx + ix;
+   13,503,600  .          Cell *cell = &cells[index];
+   10,502,800  .          int np = cnumPars[index];
+   13,570,600  .          for(int j = 0; j < np; ++j)
+            .  .          {
+   18,165,600  .            cell->density[j % PARTICLES_PER_CELL] = 0.0;
+   27,248,400  .            cell->a[j % PARTICLES_PER_CELL] = externalAcceleration;
+            .  .            //move pointer to next cell in list if end of array is reached
+   12,110,400  .            if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+          600  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void ComputeDensitiesMT(int tid)
+          800  .  {
+            .  .    int neighCells[3*3*3];
+            .  .  
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+   10,502,800  .          int np = cnumPars[index];
+    3,000,800  .          if(np == 0)
+    1,199,343  .            continue;
+            .  .  
+    2,107,399  .          int numNeighCells = InitNeighCellList(ix, iy, iz, neighCells);
+  427,555,273  .  => pthreads.cpp:InitNeighCellList(int, int, int, int*) (301057x)
+            .  .  
+    2,709,513  .          Cell *cell = &cells[index];
+    8,773,228  .          for(int ipar = 0; ipar < np; ++ipar)
+            .  .          {
+   87,280,320  .            for(int inc = 0; inc < numNeighCells; ++inc)
+            .  .            {
+   64,980,096  .              int indexNeigh = neighCells[inc];
+  146,205,216  .              Cell *neigh = &cells[indexNeigh];
+  113,715,168  .              int numNeighPars = cnumPars[indexNeigh];
+  523,133,491  .              for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh)
+            .  .              {
+            .  .                //Check address to make sure densities are computed only once per pair
+2,565,659,012  .                if(&neigh->p[iparNeigh % PARTICLES_PER_CELL] < &cell->p[ipar % PARTICLES_PER_CELL])
+            .  .                {
+3,275,453,206  .                  fptype distSq = (cell->p[ipar % PARTICLES_PER_CELL] - neigh->p[iparNeigh % PARTICLES_PER_CELL]).GetLengthSq();
+4,740,787,535  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-(Vec3 const&) const (86196137x)
+1,896,315,014  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::GetLengthSq() const (86196137x)
+  258,588,411  .                  if(distSq < hSq)
+            .  .                  {
+   40,253,568  .                    fptype t = hSq - distSq;
+   53,671,424  .                    fptype tc = t*t*t;
+            .  .  
+   93,924,992  .                    if(border[index])
+            .  .                    {
+   26,659,941  .                      pthread_mutex_lock(&mutex[index][ipar % MUTEXES_PER_CELL]);
+   31,738,025 1,269,521  => ???:pthread_mutex_lock (1269521x)
+   20,312,336  .                      cell->density[ipar % PARTICLES_PER_CELL] += tc;
+   27,929,462  .                      pthread_mutex_unlock(&mutex[index][ipar % MUTEXES_PER_CELL]);
+   21,581,857 1,269,521  => ???:pthread_mutex_unlock (1269521x)
+            .  .                    }
+            .  .                    else
+  194,373,360  .                      cell->density[ipar % PARTICLES_PER_CELL] += tc;
+            .  .  
+   93,924,992  .                    if(border[indexNeigh])
+            .  .                    {
+   26,709,102  .                      pthread_mutex_lock(&mutex[indexNeigh][iparNeigh % MUTEXES_PER_CELL]);
+   31,796,550 1,271,862  => ???:pthread_mutex_lock (1271862x)
+   20,349,792  .                      neigh->density[iparNeigh % PARTICLES_PER_CELL] += tc;
+   27,980,964  .                      pthread_mutex_unlock(&mutex[indexNeigh][iparNeigh % MUTEXES_PER_CELL]);
+   21,621,654 1,271,862  => ???:pthread_mutex_unlock (1271862x)
+            .  .                    }
+            .  .                    else
+  194,335,904  .                      neigh->density[iparNeigh % PARTICLES_PER_CELL] += tc;
+            .  .                  }
+            .  .                }
+            .  .                //move pointer to next cell in list if end of array is reached
+  733,045,432  .                if(iparNeigh % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+       81,246  .                  neigh = neigh->next;
+            .  .                }
+            .  .              }
+            .  .            }
+            .  .            //move pointer to next cell in list if end of array is reached
+   12,110,400  .            if(ipar % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+          600  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void ComputeDensities2MT(int tid)
+          600  .  {
+        1,200  .    const fptype tc = hSq*hSq*hSq;
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+   13,503,600  .          Cell *cell = &cells[index];
+   10,502,800  .          int np = cnumPars[index];
+   13,570,600  .          for(int j = 0; j < np; ++j)
+            .  .          {
+   24,220,800  .            cell->density[j % PARTICLES_PER_CELL] += tc;
+   25,734,600  .            cell->density[j % PARTICLES_PER_CELL] *= densityCoeff;
+            .  .            //move pointer to next cell in list if end of array is reached
+   12,110,400  .            if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+          600  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void ComputeForcesMT(int tid)
+        1,000  .  {
+            .  .    int neighCells[3*3*3];
+            .  .  
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+   10,502,800  .          int np = cnumPars[index];
+    3,000,800  .          if(np == 0)
+    1,199,343  .            continue;
+            .  .  
+    2,107,399  .          int numNeighCells = InitNeighCellList(ix, iy, iz, neighCells);
+  427,555,273  .  => pthreads.cpp:InitNeighCellList(int, int, int, int*) (301057x)
+            .  .  
+    2,709,513  .          Cell *cell = &cells[index];
+    8,773,228  .          for(int ipar = 0; ipar < np; ++ipar)
+            .  .          {
+   87,280,320  .            for(int inc = 0; inc < numNeighCells; ++inc)
+            .  .            {
+   64,980,096  .              int indexNeigh = neighCells[inc];
+  146,205,216  .              Cell *neigh = &cells[indexNeigh];
+  113,715,168  .              int numNeighPars = cnumPars[indexNeigh];
+  523,133,491  .              for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh)
+            .  .              {
+            .  .                //Check address to make sure forces are computed only once per pair
+2,565,659,012  .                if(&neigh->p[iparNeigh % PARTICLES_PER_CELL] < &cell->p[ipar % PARTICLES_PER_CELL])
+            .  .                {
+2,844,472,521  .                  Vec3 disp = cell->p[ipar % PARTICLES_PER_CELL] - neigh->p[iparNeigh % PARTICLES_PER_CELL];
+4,740,787,535  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-(Vec3 const&) const (86196137x)
+  430,980,685  .                  fptype distSq = disp.GetLengthSq();
+1,896,315,014  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::GetLengthSq() const (86196137x)
+  344,784,548  .                  if(distSq < hSq)
+            .  .                  {
+            .  .  #ifndef ENABLE_DOUBLE_PRECISION
+  187,849,988  .                    fptype dist = sqrtf(std::max(distSq, (fptype)1e-12));
+  174,432,129  .  => /usr/include/c++/5.1.1/bits/stl_algobase.h:float const& std::max<float>(float const&, float const&) (13417856x)
+   67,089,280  .  => ???:sqrtf (13417856x)
+          909  1  => ???:_dl_runtime_resolve (1x)
+            .  .  #else
+            .  .                    fptype dist = sqrt(std::max(distSq, 1e-12));
+            .  .  #endif //ENABLE_DOUBLE_PRECISION
+   40,253,568  .                    fptype hmr = h - dist;
+            .  .  
+  764,817,792  .                    Vec3 acc = disp * pressureCoeff * (hmr*hmr/dist) * (cell->density[ipar % PARTICLES_PER_CELL]+neigh->density[iparNeigh % PARTICLES_PER_CELL] - doubleRestDensity);
+1,932,171,264  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const (40253568x)
+  805,071,360  .                    acc += (neigh->v[iparNeigh % PARTICLES_PER_CELL] - cell->v[ipar % PARTICLES_PER_CELL]) * viscosityCoeff * hmr;
+  375,699,968  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+=(Vec3 const&) (13417856x)
+1,288,114,176  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const (26835712x)
+  737,982,080  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-(Vec3 const&) const (13417856x)
+  348,864,256  .                    acc /= cell->density[ipar % PARTICLES_PER_CELL] * neigh->density[iparNeigh % PARTICLES_PER_CELL];
+  335,446,400  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator/=(float) (13417856x)
+            .  .  
+   93,924,992  .                    if( border[index])
+            .  .                    {
+   26,659,941  .                      pthread_mutex_lock(&mutex[index][ipar % MUTEXES_PER_CELL]);
+   31,738,025 1,269,521  => ???:pthread_mutex_lock (1269521x)
+   22,851,378  .                      cell->a[ipar % PARTICLES_PER_CELL] += acc;
+   35,546,588  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+=(Vec3 const&) (1269521x)
+   27,929,462  .                      pthread_mutex_unlock(&mutex[index][ipar % MUTEXES_PER_CELL]);
+   21,581,857 1,269,521  => ???:pthread_mutex_unlock (1269521x)
+            .  .                    }
+            .  .                    else
+  218,670,030  .                      cell->a[ipar % PARTICLES_PER_CELL] += acc;
+  340,153,380  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+=(Vec3 const&) (12148335x)
+            .  .  
+   93,924,992  .                    if( border[indexNeigh])
+            .  .                    {
+   26,709,102  .                      pthread_mutex_lock(&mutex[indexNeigh][iparNeigh % MUTEXES_PER_CELL]);
+   31,796,550 1,271,862  => ???:pthread_mutex_lock (1271862x)
+   22,893,516  .                      neigh->a[iparNeigh % PARTICLES_PER_CELL] -= acc;
+   35,612,136  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-=(Vec3 const&) (1271862x)
+   27,980,964  .                      pthread_mutex_unlock(&mutex[indexNeigh][iparNeigh % MUTEXES_PER_CELL]);
+   21,621,654 1,271,862  => ???:pthread_mutex_unlock (1271862x)
+            .  .                    }
+            .  .                    else
+  218,627,892  .                      neigh->a[iparNeigh % PARTICLES_PER_CELL] -= acc;
+  340,087,832  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator-=(Vec3 const&) (12145994x)
+            .  .                  }
+            .  .                }
+            .  .                //move pointer to next cell in list if end of array is reached
+  733,045,432  .                if(iparNeigh % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+       81,246  .                  neigh = neigh->next;
+            .  .                }
+            .  .              }
+            .  .            }
+            .  .            //move pointer to next cell in list if end of array is reached
+   12,110,400  .            if(ipar % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+        1,000  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  // ProcessCollisions() with container walls
+            .  .  // Under the assumptions that
+            .  .  // a) a particle will not penetrate a wall
+            .  .  // b) a particle will not migrate further than once cell
+            .  .  // c) the parSize is smaller than a cell
+-- line 871 ----------------------------------------
+-- line 912 ----------------------------------------
+            .  .            if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+            .  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+            .  .  }
+            .  .  #else
+            .  .  void ProcessCollisionsMT(int tid)
+          800  .  {
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+            .  .    {
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+            .  .  	{
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   27,789,200  .  	    if(!((ix==0)||(iy==0)||(iz==0)||(ix==(nx-1))||(iy==(ny-1))==(iz==(nz-1))))
+       98,000  .  			continue;	// not on domain wall
+   14,024,000  .          int index = (iz*ny + iy)*nx + ix;
+   12,621,600  .          Cell *cell = &cells[index];
+    9,816,800  .          int np = cnumPars[index];
+   12,996,910  .          for(int j = 0; j < np; ++j)
+            .  .          {
+   10,342,234  .  		  int ji = j % PARTICLES_PER_CELL;
+   50,233,708  .            Vec3 pos = cell->p[ji] + cell->hv[ji] * timeStep;
+   81,260,410  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+(Vec3 const&) const (1477462x)
+   70,918,176  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const (1477462x)
+            .  .  
+    2,954,924  .  		  if(ix==0)
+            .  .  		  {
+      445,473  .              fptype diff = parSize - (pos.x - domainMin.x);
+      254,556  .  		    if(diff > epsilon)
+      481,356  .                cell->a[ji].x += stiffnessCollisions*diff - damping*cell->v[ji].x;
+            .  .  		  }
+    5,909,848  .  		  if(ix==(nx-1))
+            .  .  		  {
+      443,905  .              fptype diff = parSize - (domainMax.x - pos.x);
+      253,660  .              if(diff > epsilon)
+      488,984  .                cell->a[ji].x -= stiffnessCollisions*diff + damping*cell->v[ji].x;
+            .  .  		  }
+    2,954,924  .  		  if(iy==0)
+            .  .  		  {
+    2,777,950  .              fptype diff = parSize - (pos.y - domainMin.y);
+    1,587,400  .              if(diff > epsilon)
+    5,180,040  .                cell->a[ji].y += stiffnessCollisions*diff - damping*cell->v[ji].y;
+            .  .  		  }
+    5,909,848  .  		  if(iy==(ny-1))
+            .  .  		  {
+            .  .              fptype diff = parSize - (domainMax.y - pos.y);
+            .  .              if(diff > epsilon)
+            .  .                cell->a[ji].y -= stiffnessCollisions*diff + damping*cell->v[ji].y;
+            .  .  		  }
+    2,954,924  .  		  if(iz==0)
+            .  .  		  {
+      434,763  .              fptype diff = parSize - (pos.z - domainMin.z);
+      248,436  .              if(diff > epsilon)
+      444,960  .                cell->a[ji].z += stiffnessCollisions*diff - damping*cell->v[ji].z;
+            .  .  		  }
+    5,909,848  .  		  if(iz==(nz-1))
+            .  .  		  {
+      174,069  .              fptype diff = parSize - (domainMax.z - pos.z);
+       99,468  .              if(diff > epsilon)
+      276,944  .                cell->a[ji].z -= stiffnessCollisions*diff + damping*cell->v[ji].z;
+            .  .  		  }
+            .  .            //move pointer to next cell in list if end of array is reached
+    2,954,924  .            if(ji == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+            .  .  	}
+            .  .    }
+          600  .  }
+            .  .  #endif
+            .  .  
+            .  .  #define USE_ImpeneratableWall
+            .  .  #if defined(USE_ImpeneratableWall)
+            .  .  void ProcessCollisions2MT(int tid)
+          600  .  {
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+            .  .    {
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+            .  .  	{
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+            .  .  #if 0
+            .  .  // Chris, the following test should be valid
+            .  .  // *** provided that a particle does not migrate more than 1 cell
+            .  .  // *** per integration step. This does not appear to be the case
+            .  .  // *** in the pthreads version. Serial version it seems to be OK
+            .  .  	    if(!((ix==0)||(iy==0)||(iz==0)||(ix==(nx-1))||(iy==(ny-1))==(iz==(nz-1))))
+            .  .  			continue;	// not on domain wall
+            .  .  #endif
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+   13,503,600  .          Cell *cell = &cells[index];
+   10,502,800  .          int np = cnumPars[index];
+   13,570,600  .          for(int j = 0; j < np; ++j)
+            .  .          {
+   10,596,600  .  		  int ji = j % PARTICLES_PER_CELL;
+   18,165,600  .            Vec3 pos = cell->p[ji];
+            .  .  
+    3,027,600  .  		  if(ix==0)
+            .  .  		  {
+      254,556  .              fptype diff = pos.x - domainMin.x;
+      190,917  .  		    if(diff < Zero)
+            .  .  			{
+       56,419  .  				cell->p[ji].x = domainMin.x - diff;
+      112,838  .  				cell->v[ji].x = -cell->v[ji].x;
+      112,838  .  				cell->hv[ji].x = -cell->hv[ji].x;
+            .  .  			}
+            .  .  		  }
+    6,055,200  .  		  if(ix==(nx-1))
+            .  .  		  {
+      253,660  .              fptype diff = domainMax.x - pos.x;
+      190,245  .   			if(diff < Zero)
+            .  .  			{
+       55,110  .  				cell->p[ji].x = domainMax.x + diff;
+      110,220  .  				cell->v[ji].x = -cell->v[ji].x;
+      110,220  .  				cell->hv[ji].x = -cell->hv[ji].x;
+            .  .  			}
+            .  .  		  }
+    3,027,600  .  		  if(iy==0)
+            .  .  		  {
+    1,587,400  .              fptype diff = pos.y - domainMin.y;
+    1,190,550  .  		    if(diff < Zero)
+            .  .  			{
+      768,768  .  				cell->p[ji].y = domainMin.y - diff;
+    1,409,408  .  				cell->v[ji].y = -cell->v[ji].y;
+    1,409,408  .  				cell->hv[ji].y = -cell->hv[ji].y;
+            .  .  			}
+            .  .  		  }
+    6,055,200  .  		  if(iy==(ny-1))
+            .  .  		  {
+            .  .              fptype diff = domainMax.y - pos.y;
+            .  .   			if(diff < Zero)
+            .  .  			{
+            .  .  				cell->p[ji].y = domainMax.y + diff;
+            .  .  				cell->v[ji].y = -cell->v[ji].y;
+            .  .  				cell->hv[ji].y = -cell->hv[ji].y;
+            .  .  			}
+            .  .  		  }
+    3,027,600  .  		  if(iz==0)
+            .  .  		  {
+      248,436  .              fptype diff = pos.z - domainMin.z;
+      186,327  .  		    if(diff < Zero)
+            .  .  			{
+       58,788  .  				cell->p[ji].z = domainMin.z - diff;
+      107,778  .  				cell->v[ji].z = -cell->v[ji].z;
+      107,778  .  				cell->hv[ji].z = -cell->hv[ji].z;
+            .  .  			}
+            .  .  		  }
+    6,055,200  .  		  if(iz==(nz-1))
+            .  .  		  {
+      244,820  .              fptype diff = domainMax.z - pos.z;
+      183,615  .   			if(diff < Zero)
+            .  .  			{
+       53,724  .  				cell->p[ji].z = domainMax.z + diff;
+       98,494  .  				cell->v[ji].z = -cell->v[ji].z;
+       98,494  .  				cell->hv[ji].z = -cell->hv[ji].z;
+            .  .  			}
+            .  .  		  }
+            .  .            //move pointer to next cell in list if end of array is reached
+    3,027,600  .            if(ji == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+            .  .  	}
+            .  .    }
+          600  .  }
+            .  .  #endif
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void AdvanceParticlesMT(int tid)
+        1,000  .  {
+       47,000  .    for(int iz = grids[tid].sz; iz < grids[tid].ez; ++iz)
+    1,430,000  .      for(int iy = grids[tid].sy; iy < grids[tid].ey; ++iy)
+   17,050,000  .        for(int ix = grids[tid].sx; ix < grids[tid].ex; ++ix)
+            .  .        {
+   15,004,000  .          int index = (iz*ny + iy)*nx + ix;
+   13,503,600  .          Cell *cell = &cells[index];
+   10,502,800  .          int np = cnumPars[index];
+   13,570,600  .          for(int j = 0; j < np; ++j)
+            .  .          {
+   68,121,000  .            Vec3 v_half = cell->hv[j % PARTICLES_PER_CELL] + cell->a[j % PARTICLES_PER_CELL]*timeStep;
+   72,662,400  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const (1513800x)
+   83,259,000  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+(Vec3 const&) const (1513800x)
+            .  .  #if defined(USE_ImpeneratableWall)
+            .  .  		// N.B. The integration of the position can place the particle
+            .  .  		// outside the domain. Although we could place a test in this loop
+            .  .  		// we would be unnecessarily testing particles on interior cells.
+            .  .  		// Therefore, to reduce the amount of computations we make a later
+            .  .  		// pass on the perimiter cells to account for particle migration
+            .  .  		// beyond domain
+            .  .  #endif
+   40,872,600  .            cell->p[j % PARTICLES_PER_CELL] += v_half * timeStep;
+   72,662,400  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*(float) const (1513800x)
+   42,386,400  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+=(Vec3 const&) (1513800x)
+   56,010,600  .            cell->v[j % PARTICLES_PER_CELL] = cell->hv[j % PARTICLES_PER_CELL] + v_half;
+   83,259,000  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator+(Vec3 const&) const (1513800x)
+   25,734,600  .            cell->v[j % PARTICLES_PER_CELL] *= 0.5;
+   33,303,600  .  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/fluid.hpp:Vec3::operator*=(float) (1513800x)
+   27,248,400  .            cell->hv[j % PARTICLES_PER_CELL] = v_half;
+            .  .    	  
+            .  .           
+            .  .            //move pointer to next cell in list if end of array is reached
+   12,110,400  .            if(j % PARTICLES_PER_CELL == PARTICLES_PER_CELL-1) {
+          960  .              cell = cell->next;
+            .  .            }
+            .  .          }
+            .  .        }
+        1,000  .  }
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  void AdvanceFrameMT(int tid)
+          800  .  {
+            .  .    //swap src and dest arrays with particles
+          400  .    if(tid==0) {
+          300  .      std::swap(cells, cells2);
+        1,700  .  => /usr/include/c++/5.1.1/bits/move.h:void std::swap<Cell*>(Cell*&, Cell*&) (100x)
+          300  .      std::swap(cnumPars, cnumPars2);
+        1,700  .  => /usr/include/c++/5.1.1/bits/move.h:void std::swap<int*>(int*&, int*&) (100x)
+            .  .    }
+          400  .    pthread_barrier_wait(&barrier);
+  102,458,940 2,756  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+            .  .  
+          600  .    ClearParticlesMT(tid);
+   77,043,800  .  => pthreads.cpp:ClearParticlesMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   98,266,443 2,678  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    RebuildGridMT(tid);
+  460,200,344 278,834  => pthreads.cpp:RebuildGridMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+  101,926,814 2,743  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    InitDensitiesAndForcesMT(tid);
+  128,634,560  .  => pthreads.cpp:InitDensitiesAndForcesMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   99,825,826 2,703  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    ComputeDensitiesMT(tid);
+15,833,900,186 5,082,766  => pthreads.cpp:ComputeDensitiesMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   99,825,805 2,703  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    ComputeDensities2MT(tid);
+  133,177,160  .  => pthreads.cpp:ComputeDensities2MT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   98,775,375 2,684  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    ComputeForcesMT(tid);
+23,689,036,461 5,082,767  => pthreads.cpp:ComputeForcesMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+  100,350,757 2,710  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    ProcessCollisionsMT(tid);
+  351,771,602  .  => pthreads.cpp:ProcessCollisionsMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   94,573,187 2,600  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+          600  .    AdvanceParticlesMT(tid);
+  688,741,360  .  => pthreads.cpp:AdvanceParticlesMT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+   97,724,943 2,663  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+            .  .  #if defined(USE_ImpeneratableWall)
+            .  .    // N.B. The integration of the position can place the particle
+            .  .    // outside the domain. We now make a pass on the perimiter cells
+            .  .    // to account for particle migration beyond domain.
+          600  .    ProcessCollisions2MT(tid);
+  139,349,171  .  => pthreads.cpp:ProcessCollisions2MT(int) (200x)
+          400  .    pthread_barrier_wait(&barrier);
+  102,977,307 2,760  => /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/parsec_barrier.cpp:parsec_barrier_wait(parsec_barrier_t*) (200x)
+            .  .  #endif
+          600  .  }
+            .  .  
+            .  .  #ifndef ENABLE_VISUALIZATION
+            .  .  void *AdvanceFramesMT(void *args)
+            8  .  {
+            4  .    thread_args *targs = (thread_args *)args;
+            .  .  
+        1,210  .    for(int i = 0; i < targs->frames; ++i) {
+          800  .      AdvanceFrameMT(targs->tid);
+42,498,575,241 10,471,367  => pthreads.cpp:AdvanceFrameMT(int) (200x)
+            .  .    }
+            .  .    
+            2  .    return NULL;
+            4  .  }
+            .  .  #else
+            .  .  //Frame advancement function for worker threads
+            .  .  void *AdvanceFramesMT(void *args)
+            .  .  {
+            .  .    thread_args *targs = (thread_args *)args;
+            .  .  
+            .  .  #if 1
+            .  .    while(1)
+-- line 1171 ----------------------------------------
+-- line 1192 ----------------------------------------
+            .  .      pthread_barrier_wait(&visualization_barrier);
+            .  .      //Begin of phase 2: Worker threads blocked, visualization code busy (next frame)
+            .  .  }
+            .  .  #endif //ENABLE_VISUALIZATION
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+            .  .  
+            .  .  int main(int argc, char *argv[])
+            9  .  {
+            .  .  #ifdef PARSEC_VERSION
+            .  .  #define __PARSEC_STRING(x) #x
+            .  .  #define __PARSEC_XSTRING(x) __PARSEC_STRING(x)
+            .  .          std::cout << "PARSEC Benchmark Suite Version "__PARSEC_XSTRING(PARSEC_VERSION) << std::endl << std::flush;
+            .  .  #else
+           20  .          std::cout << "PARSEC Benchmark Suite" << std::endl << std::flush;
+       11,082  .  => ???:std::ostream::operator<<(std::ostream& (*)(std::ostream&)) (2x)
+        2,481  .  => ???:_dl_runtime_resolve (2x)
+        6,048  .  => ???:std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) (1x)
+            .  .  #endif //PARSEC_VERSION
+            .  .  #ifdef ENABLE_PARSEC_HOOKS
+            .  .    __parsec_bench_begin(__parsec_fluidanimate);
+            .  .  #endif
+            .  .  
+            4  .    if(argc < 4 || argc >= 6)
+            .  .    {
+            .  .      std::cout << "Usage: " << argv[0] << " <threadnum> <framenum> <.fluid input file> [.fluid output file]" << std::endl;
+            .  .      return -1;
+            .  .    }
+            .  .  
+           11  .    int threadnum = atoi(argv[1]);
+          113  .  => ???:atoi (1x)
+        1,245  .  => ???:_dl_runtime_resolve (1x)
+            7  .    int framenum = atoi(argv[2]);
+          155  .  => ???:atoi (1x)
+            .  .  
+            .  .    //Check arguments
+            2  .    if(threUse of uninitialized value in division (/) at /usr/bin/callgrind_annotate line 1218.
+adnum < 1) {
+            .  .      std::cerr << "<threadnum> must at least be 1" << std::endl;
+            .  .      return -1;
+            .  .    }
+            2  .    if(framenum < 1) {
+            .  .      std::cerr << "<framenum> must at least be 1" << std::endl;
+            .  .      return -1;
+            .  .    }
+            .  .  
+            .  .  #ifdef ENABLE_CFL_CHECK
+            .  .    std::cout << "WARNING: Check for Courant–Friedrichs–Lewy condition enabled. Do not use for performance measurements." << std::endl;
+            .  .  #endif
+            .  .  
+            7  .    InitSim(argv[3], threadnum);
+   97,937,292 38  => pthreads.cpp:InitSim(char const*, unsigned int) (1x)
+            .  .  #ifdef ENABLE_VISUALIZATION
+            .  .    InitVisualizationMode(&argc, argv, &AdvanceFrameVisualization, &numCells, &cells, &cnumPars);
+            .  .  #endif
+            .  .  
+            .  .  #ifdef ENABLE_PARSEC_HOOKS
+            .  .    __parsec_roi_begin();
+            .  .  #endif
+            .  .  #if defined(WIN32)
+            .  .    thread_args* targs = (thread_args*)alloca(sizeof(thread_args)*threadnum);
+            .  .  #else
+           28  .    thread_args targs[threadnum];
+            .  .  #endif
+           14  .    for(int i = 0; i < threadnum; ++i) {
+           10  .      targs[i].tid = i;
+           10  .      targs[i].frames = framenum;
+           36  .      pthread_create(&thread[i], &attr, AdvanceFramesMT, &targs[i]);
+        7,401 18  => ???:pthread_create@@GLIBC_2.2.5 (2x)
+        1,268  .  => ???:_dl_runtime_resolve (1x)
+            .  .    }
+            .  .  
+            .  .    // *** PARALLEL PHASE *** //
+            .  .  #ifdef ENABLE_VISUALIZATION
+            .  .    Visualize();
+            .  .  #endif
+            .  .  
+           14  .    for(int i = 0; i < threadnum; ++i) {
+           24  .      pthread_join(thread[i], NULL);
+        1,245  1  => ???:_dl_runtime_resolve (1x)
+          281 12  => ???:pthread_join (2x)
+            .  .    }
+            .  .  #ifdef ENABLE_PARSEC_HOOKS
+            .  .    __parsec_roi_end();
+            .  .  #endif
+            .  .  
+            2  .    if(argc > 4)
+            5  .      SaveFile(argv[4]);
+   26,147,366 188  => pthreads.cpp:SaveFile(char const*) (1x)
+            1  .    CleanUpSim();
+    8,447,736 30,048  => pthreads.cpp:CleanUpSim() (1x)
+            .  .  
+            .  .  #ifdef ENABLE_PARSEC_HOOKS
+            .  .    __parsec_bench_end();
+            .  .  #endif
+            .  .  
+            4  .    return 0;
+           26  .  }
+      107,773 142  => pthreads.cpp:__static_initialization_and_destruction_0(int, int) (1x)
+            .  .  
+            .  .  ////////////////////////////////////////////////////////////////////////////////
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/pthreads.cpp
+--------------------------------------------------------------------------------
+  No information has been collected for /home/jv/parsec-3.0/pkgs/apps/fluidanimate/src/pthreads.cpp
+
+--------------------------------------------------------------------------------
+Ir Ge 
+--------------------------------------------------------------------------------
+99  0  percentage of events annotated
+
