@@ -1,0 +1,21 @@
+Building:
+---------
+./configure --enable-threads --enable-tbb
+
+(--enable-tbb should be enough, but somehow it automatically starts building threaded
+version too, so it doesn't harm to provide --enable-threads too, to check for pthreads
+headers and so on)
+
+make
+
+Running:
+--------
+The resulting binary is src/TracingBenchmark/bodytrack. It accepts 7 arguments. The
+first one is the location of the input data (inputs/inputs1), second and third
+have to be 4 and 1 for the inputs/input1, the next to can be set arbitrarily
+(larger they are, more time execution takes), the 6th one is threading model (1 for
+TBB) and the last one is number of threads. So, an example run (which takes about 30
+seconds on lovelace) is
+
+src/TrachingBenchmark/bodytrack inputs/input1 4 1 100000 10 1 4
+
