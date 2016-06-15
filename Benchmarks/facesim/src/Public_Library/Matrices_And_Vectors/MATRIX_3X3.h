@@ -7,6 +7,7 @@
 #ifndef __MATRIX_3X3__
 #define __MATRIX_3X3__
 
+#include <stdlib.h>
 #include <assert.h>
 #include "VECTOR_3D.h"
 #include "../Math_Tools/sqr.h"
@@ -404,7 +405,7 @@ public:
 				if (exit_on_max_iterations)
 				{
 					std::cout << "Failed in Higham iteration!" << std::endl;
-					exit (1);
+				       exit (1);
 				}
 				else return X;
 			}

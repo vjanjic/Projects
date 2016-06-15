@@ -31,12 +31,12 @@
 
 #include <vector>
 #include <string>
-#include <FlexImage.h>
+#include "../FlexImageLib/FlexImage.h"
 #include "ImageMeasurements.h"
 #include "ImageProjection.h"
 #include "CameraModel.h"
 #include "BodyGeometry.h"
-#include "BinaryImage.h"
+#include "../FlexImageLib/BinaryImage.h"
 
 #define FlexImage8u  FlexImage<Im8u,1>
 #define FlexImage32f FlexImage<Im32f,1>

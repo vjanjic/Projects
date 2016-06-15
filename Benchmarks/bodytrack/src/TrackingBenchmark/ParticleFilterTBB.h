@@ -218,8 +218,8 @@ bool ParticleFilterTBB<T>::Update(fpType timeval)							//weights have already b
 		return false;
 	}	
 	for(int k = (int)mModel->StdDevs().size() - 1; k >= 0 ; k--)			//loop over all annealing steps starting with highest
-	{	CalcCDF(mWeights, mCdf);						//Monte Carlo re-sampling 
-		Resample(mCdf, mBins, mSamples, mNParticles);		
+	{	this->CalcCDF(mWeights, mCdf);						//Monte Carlo re-sampling 
+		this->Resample(mCdf, mBins, mSamples, mNParticles);		
 		bool minValid = false;
 		while(!minValid)
 		{	GenerateNewParticles(k);

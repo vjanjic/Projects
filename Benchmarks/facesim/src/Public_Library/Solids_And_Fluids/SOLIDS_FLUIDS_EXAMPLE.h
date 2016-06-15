@@ -54,7 +54,7 @@ public:
 			dt = target_time - time;
 			done = true;
 		}
-		else if (time + 2 * dt >= target_time) dt = min (dt, (T).51 * (target_time - time));
+		else if (time + 2 * dt >= target_time) dt = std::min (dt, (T).51 * (target_time - time));
 	}
 
 	void Set_Minimum_Surface_Roughness (const T minimum_surface_roughness_input = 1e-6)

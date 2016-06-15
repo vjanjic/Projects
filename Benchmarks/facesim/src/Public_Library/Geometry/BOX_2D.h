@@ -8,10 +8,12 @@
 #define __BOX_2D__
 
 #include "../Math_Tools/min.h"
+#include "../Math_Tools/clamp.h"
 #include "../Math_Tools/max.h"
 #include "../Matrices_And_Vectors/VECTOR_2D.h"
 #include "../Geometry/SEGMENT_2D.h"
 #include "../Geometry/RAY_2D.h"
+
 namespace PhysBAM
 {
 

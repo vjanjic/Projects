@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include "TrackingModel.h"
 #include "CovarianceMatrix.h"
-#include "FlexLib.h"
+#include "../FlexImageLib/FlexLib.h"
 #include "system.h"
 
 #ifndef uint

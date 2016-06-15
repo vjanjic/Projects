@@ -105,7 +105,7 @@ Advance_One_Time_Step_Quasistatic (const T time, const T dt, const T cg_toleranc
 		LOG::Stop_Time();
 		Update_Collision_Penalty_Forces_And_Derivatives();
 
-		if (One_Newton_Step_Toward_Steady_State (cg_tolerance, cg_iterations, time + dt, dX_full, false, 0, iteration == 0) || use_partially_converged_result)
+		if (this->One_Newton_Step_Toward_Steady_State (cg_tolerance, cg_iterations, time + dt, dX_full, false, 0, iteration == 0) || use_partially_converged_result)
 			if (PHYSBAM_THREADED_RUN) ARRAY_PARALLEL_OPERATIONS<VECTOR_3D<T>, T, VECTOR_3D<T> >::Add_Scaled_Array_Parallel (dX_full, (T) 1, particles.X.array, *particles.particle_ranges);
 
 #ifndef NEW_SERIAL_IMPLEMENTATIOM

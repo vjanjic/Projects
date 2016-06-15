@@ -22,8 +22,8 @@
 # include "config.h"
 #endif
 
-#include <FlexLib.h>
-#include "BinaryImage.h"
+#include "../FlexImageLib/FlexLib.h"
+#include "../FlexImageLib/BinaryImage.h"
 #include "ImageProjection.h"
 
 #define FlexImage8u FlexImage<Im8u,1>

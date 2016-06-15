@@ -18,7 +18,7 @@
 
 
 #include "system.h"
-#include "FlexIO.h"
+#include "../FlexImageLib/FlexIO.h"
 #include "AsyncIO.h"
 #include <iomanip>
 #include <sstream>

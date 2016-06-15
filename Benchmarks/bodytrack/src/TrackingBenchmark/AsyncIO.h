@@ -23,8 +23,8 @@
 #include "threads/Mutex.h"
 #include "threads/Condition.h"
 #include "threads/Barrier.h"
-#include "FlexImage.h"
-#include "BinaryImage.h"
+#include "../FlexImageLib/FlexImage.h"
+#include "../FlexImageLib/BinaryImage.h"
 
 typedef std::vector<FlexImage<Im8u,1> > ImageSet;
 typedef std::vector<BinaryImage> BinaryImageSet;

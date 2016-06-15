@@ -13,6 +13,7 @@
 #define __READ_WRITE_FUNCTIONS__
 #include <iostream>
 #include <assert.h>
+#include <stdlib.h>
 
 namespace PhysBAM
 {
