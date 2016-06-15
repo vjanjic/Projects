@@ -1,0 +1,9 @@
+/home/jv/Projects/Benchmarks/raytrace/src/MiniView/CMakeFiles/rtview.dir
+/home/jv/Projects/Benchmarks/raytrace/src/RTTL/CMakeFiles/test_vertex_conversion.dir
+/home/jv/Projects/Benchmarks/raytrace/src/RTTL/CMakeFiles/test_newmesh.dir
+/home/jv/Projects/Benchmarks/raytrace/src/CMakeFiles/test_glut.dir
+/home/jv/Projects/Benchmarks/raytrace/src/LRT/CMakeFiles/test_static_cube.dir
+/home/jv/Projects/Benchmarks/raytrace/src/LRT/CMakeFiles/LRT.dir
+/home/jv/Projects/Benchmarks/raytrace/src/RTTL/CMakeFiles/RTTL.dir
+/home/jv/Projects/Benchmarks/raytrace/src/RTTL/CMakeFiles/test_rtvec.dir
+/home/jv/Projects/Benchmarks/raytrace/src/RTTL/CMakeFiles/TestOptions.dir

@@ -1,0 +1,1 @@
+/usr/lib64/ccache/c++   -std=c++11    CMakeFiles/test_static_cube.dir/test/api_static_cube/static_cube.o  -o ../bin/test_static_cube  -L/home/jv/Projects/Benchmarks/raytrace/src/lib -rdynamic ../lib/libLRT.a -lGLU -lGL ../lib/libRTTL.a -lstdc++ -lpthread -lglut -lrt 
