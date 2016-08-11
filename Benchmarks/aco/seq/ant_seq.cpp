@@ -255,7 +255,7 @@ int main(int argc, char **argv) {
   
   t1 = get_current_time();
   for (j=0; j<num_iter; j++) {
-    for (i=0; i<num_ants; i++) { 
+    for (int i=0; i<num_ants; i++) { 
       cost[i] = solve (i);
     }
     best_t = pick_best(&best_result);
