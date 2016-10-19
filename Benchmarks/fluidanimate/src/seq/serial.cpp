@@ -124,8 +124,7 @@ void InitSim(char const *fileName)
 
   // because cells and cells2 are not allocated via new
   // we construct them here
-  for(int i=0; i<numCells; ++i)
-  {
+  for(int i=0; i<numCells; ++i) {
 	  new (&cells[i]) Cell;
 	  new (&cells2[i]) Cell;
   }
@@ -134,8 +133,7 @@ void InitSim(char const *fileName)
 
   //Always use single precision float variables b/c file format uses single precision
   float px, py, pz, hvx, hvy, hvz, vx, vy, vz;
-  for(int i = 0; i < numParticles; ++i)
-  {
+  for(int i = 0; i < numParticles; ++i) {
     file.read((char *)&px, FILE_SIZE_FLOAT);
     file.read((char *)&py, FILE_SIZE_FLOAT);
     file.read((char *)&pz, FILE_SIZE_FLOAT);
@@ -228,12 +226,10 @@ void SaveFile(char const *fileName)
   }
 
   int count = 0;
-  for(int i = 0; i < numCells; ++i)
-  {
+  for(int i = 0; i < numCells; ++i) {
     Cell *cell = &cells[i];
     int np = cnumPars[i];
-    for(int j = 0; j < np; ++j)
-    {
+    for(int j = 0; j < np; ++j) {
       //Always use single precision float variables b/c file format uses single precision
       float px, py, pz, hvx, hvy, hvz, vx,vy, vz;
       if(!isLittleEndian()) {
@@ -282,8 +278,7 @@ void SaveFile(char const *fileName)
 void CleanUpSim()
 {
   // first return extended cells to cell pools
-  for(int i=0; i< numCells; ++i)
-  {
+  for(int i=0; i< numCells; ++i) {
     Cell& cell = cells[i];
 	while(cell.next)
 	{
@@ -323,20 +318,17 @@ void RebuildGrid()
 
   //initialize destination data structures
   memset(cnumPars, 0, numCells*sizeof(int));
-  for(int i=0; i<numCells; i++)
-  {
+  for(int i=0; i<numCells; i++) {
     cells[i].next = NULL;
     last_cells[i] = &cells[i];
   }
 
   //iterate through source cell lists
-  for(int i = 0; i < numCells; ++i)
-  {
+  for(int i = 0; i < numCells; ++i) {
     Cell *cell2 = &cells2[i];
     int np2 = cnumPars2[i];
     //iterate through source particles
-    for(int j = 0; j < np2; ++j)
-    {
+    for(int j = 0; j < np2; ++j) {
       //get destination for source particle
       int ci = (int)((cell2->p[j % PARTICLES_PER_CELL].x - domainMin.x) / delta.x);
       int cj = (int)((cell2->p[j % PARTICLES_PER_CELL].y - domainMin.y) / delta.y);
@@ -427,10 +419,9 @@ int GetNeighborCells(int ci, int cj, int ck, int *neighCells)
   neighCells[numNeighCells] = my_index;
   ++numNeighCells;
 
-  for(int di = -1; di <= 1; ++di)
-    for(int dj = -1; dj <= 1; ++dj)
-      for(int dk = -1; dk <= 1; ++dk)
-      {
+  for(int di = -1; di <= 1; ++di) {
+    for(int dj = -1; dj <= 1; ++dj) {
+      for(int dk = -1; dk <= 1; ++dk) {
         int ii = ci + di;
         int jj = cj + dj;
         int kk = ck + dk;
@@ -444,6 +435,8 @@ int GetNeighborCells(int ci, int cj, int ck, int *neighCells)
           }
         }
       }
+    }
+  }
 
   return numNeighCells;
 }
@@ -452,12 +445,10 @@ int GetNeighborCells(int ci, int cj, int ck, int *neighCells)
 
 void ComputeForces()
 {
-  for(int i = 0; i < numCells; ++i)
-  {
+  for(int i = 0; i < numCells; ++i) {
     Cell *cell = &cells[i];
     int np = cnumPars[i];
-    for(int j = 0; j < np; ++j)
-    {
+    for(int j = 0; j < np; ++j) {
       cell->density[j % PARTICLES_PER_CELL] = 0.0;
       cell->a[j % PARTICLES_PER_CELL] = externalAcceleration;
       //move pointer to next cell in list if end of array is reached
@@ -470,10 +461,9 @@ void ComputeForces()
   int neighCells[3*3*3];
 
   int cindex = 0;
-  for(int ck = 0; ck < nz; ++ck)
-    for(int cj = 0; cj < ny; ++cj)
-      for(int ci = 0; ci < nx; ++ci, ++cindex)
-      {
+  for(int ck = 0; ck < nz; ++ck) {
+    for(int cj = 0; cj < ny; ++cj) {
+      for(int ci = 0; ci < nx; ++ci, ++cindex) {
         int np = cnumPars[cindex];
         if(np == 0)
           continue;
@@ -481,15 +471,12 @@ void ComputeForces()
         int numNeighCells = GetNeighborCells(ci, cj, ck, neighCells);
 
         Cell *cell = &cells[cindex];
-        for(int ipar = 0; ipar < np; ++ipar)
-        {
-          for(int inc = 0; inc < numNeighCells; ++inc)
-          {
+        for(int ipar = 0; ipar < np; ++ipar) {
+          for(int inc = 0; inc < numNeighCells; ++inc) {
             int cindexNeigh = neighCells[inc];
             Cell *neigh = &cells[cindexNeigh];
             int numNeighPars = cnumPars[cindexNeigh];
-            for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh)
-            {
+            for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh) {
               //Check address to make sure densities are computed only once per pair
               if(&neigh->p[iparNeigh % PARTICLES_PER_CELL] < &cell->p[ipar % PARTICLES_PER_CELL])
               {
@@ -514,14 +501,13 @@ void ComputeForces()
           }
         }
       }
-
+    }
+  }
   const fptype tc = hSq*hSq*hSq;
-  for(int i = 0; i < numCells; ++i)
-  {
+  for(int i = 0; i < numCells; ++i) {
     Cell *cell = &cells[i];
     int np = cnumPars[i];
-    for(int j = 0; j < np; ++j)
-    {
+    for(int j = 0; j < np; ++j) {
       cell->density[j % PARTICLES_PER_CELL] += tc;
       cell->density[j % PARTICLES_PER_CELL] *= densityCoeff;
       //move pointer to next cell in list if end of array is reached
@@ -532,10 +518,9 @@ void ComputeForces()
   }
 
   cindex = 0;
-  for(int ck = 0; ck < nz; ++ck)
-    for(int cj = 0; cj < ny; ++cj)
-      for(int ci = 0; ci < nx; ++ci, ++cindex)
-      {
+  for(int ck = 0; ck < nz; ++ck) {
+    for(int cj = 0; cj < ny; ++cj) {
+      for(int ci = 0; ci < nx; ++ci, ++cindex) {
         int np = cnumPars[cindex];
         if(np == 0)
           continue;
@@ -543,15 +528,12 @@ void ComputeForces()
         int numNeighCells = GetNeighborCells(ci, cj, ck, neighCells);
 
         Cell *cell = &cells[cindex];
-        for(int ipar = 0; ipar < np; ++ipar)
-        {
-          for(int inc = 0; inc < numNeighCells; ++inc)
-          {
+        for(int ipar = 0; ipar < np; ++ipar) {
+          for(int inc = 0; inc < numNeighCells; ++inc) {
             int cindexNeigh = neighCells[inc];
             Cell *neigh = &cells[cindexNeigh];
             int numNeighPars = cnumPars[cindexNeigh];
-            for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh)
-            {
+            for(int iparNeigh = 0; iparNeigh < numNeighPars; ++iparNeigh) {
               //Check address to make sure forces are computed only once per pair
               if(&neigh->p[iparNeigh % PARTICLES_PER_CELL] < &cell->p[ipar % PARTICLES_PER_CELL])
               {
@@ -586,6 +568,8 @@ void ComputeForces()
           }
         }
       }
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -650,15 +634,12 @@ void ProcessCollisions()
 {
 	int x,y,z, index;
 	x=0;	// along the domainMin.x wall
-	for(y=0; y<ny; ++y)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(y=0; y<ny; ++y) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_x = cell->p[ji].x + cell->hv[ji].x * timeStep;
 				fptype diff = parSize - (pos_x - domainMin.x);
@@ -671,15 +652,12 @@ void ProcessCollisions()
 		}
 	}
 	x=nx-1;	// along the domainMax.x wall
-	for(y=0; y<ny; ++y)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(y=0; y<ny; ++y) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_x = cell->p[ji].x + cell->hv[ji].x * timeStep;
 				fptype diff = parSize - (domainMax.x - pos_x);
@@ -692,15 +670,12 @@ void ProcessCollisions()
 		}
 	}
 	y=0;	// along the domainMin.y wall
-	for(x=0; x<nx; ++x)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(x=0; x<nx; ++x) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_y = cell->p[ji].y + cell->hv[ji].y * timeStep;
 				fptype diff = parSize - (pos_y - domainMin.y);
@@ -713,15 +688,12 @@ void ProcessCollisions()
 		}
 	}
 	y=ny-1;	// along the domainMax.y wall
-	for(x=0; x<nx; ++x)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(x=0; x<nx; ++x) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_y = cell->p[ji].y + cell->hv[ji].y * timeStep;
 				fptype diff = parSize - (domainMax.y - pos_y);
@@ -734,15 +706,12 @@ void ProcessCollisions()
 		}
 	}
 	z=0;	// along the domainMin.z wall
-	for(x=0; x<nx; ++x)
-	{
-		for(y=0; y<ny; ++y)
-		{
+	for(x=0; x<nx; ++x) {
+		for(y=0; y<ny; ++y) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_z = cell->p[ji].z + cell->hv[ji].z * timeStep;
 				fptype diff = parSize - (pos_z - domainMin.z);
@@ -755,15 +724,12 @@ void ProcessCollisions()
 		}
 	}
 	z=nz-1;	// along the domainMax.z wall
-	for(x=0; x<nx; ++x)
-	{
-		for(y=0; y<ny; ++y)
-		{
+	for(x=0; x<nx; ++x) {
+		for(y=0; y<ny; ++y) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype pos_z = cell->p[ji].z + cell->hv[ji].z * timeStep;
 				fptype diff = parSize - (domainMax.z - pos_z);
@@ -782,15 +748,12 @@ void ProcessCollisions2()
 {
 	int x,y,z, index;
 	x=0;	// along the domainMin.x wall
-	for(y=0; y<ny; ++y)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(y=0; y<ny; ++y) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = cell->p[ji].x - domainMin.x;
 				if(diff < Zero)
@@ -806,15 +769,12 @@ void ProcessCollisions2()
 		}
 	}
 	x=nx-1;	// along the domainMax.x wall
-	for(y=0; y<ny; ++y)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(y=0; y<ny; ++y) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = domainMax.x - cell->p[ji].x;
 				if(diff < Zero)
@@ -830,15 +790,12 @@ void ProcessCollisions2()
 		}
 	}
 	y=0;	// along the domainMin.y wall
-	for(x=0; x<nx; ++x)
-{
-	for(z=0; z<nz; ++z)
-		{
+	for(x=0; x<nx; ++x) {
+	for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = cell->p[ji].y - domainMin.y;
 				if(diff < Zero)
@@ -854,15 +811,12 @@ void ProcessCollisions2()
 		}
 	}
 	y=ny-1;	// along the domainMax.y wall
-	for(x=0; x<nx; ++x)
-	{
-		for(z=0; z<nz; ++z)
-		{
+	for(x=0; x<nx; ++x) {
+		for(z=0; z<nz; ++z) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = domainMax.y - cell->p[ji].y;
 				if(diff < Zero)
@@ -878,15 +832,12 @@ void ProcessCollisions2()
 		}
 	}
 	z=0;	// along the domainMin.z wall
-	for(x=0; x<nx; ++x)
-	{
-		for(y=0; y<ny; ++y)
-		{
+	for(x=0; x<nx; ++x) {
+		for(y=0; y<ny; ++y) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = cell->p[ji].z - domainMin.z;
 				if(diff < Zero)
@@ -902,15 +853,12 @@ void ProcessCollisions2()
 		}
 	}
 	z=nz-1;	// along the domainMax.z wall
-	for(x=0; x<nx; ++x)
-	{
-		for(y=0; y<ny; ++y)
-		{
+	for(x=0; x<nx; ++x) {
+		for(y=0; y<ny; ++y) {
 			int ci = (z*ny + y)*nx + x;
 			Cell *cell = &cells[ci];
 			int np = cnumPars[ci];
-			for(int j = 0; j < np; ++j)
-			{
+			for(int j = 0; j < np; ++j) {
 				int ji = j % PARTICLES_PER_CELL;
 				fptype diff = domainMax.z - cell->p[ji].z;
 				if(diff < Zero)
@@ -932,12 +880,10 @@ void ProcessCollisions2()
 
 void AdvanceParticles()
 {
-  for(int i = 0; i < numCells; ++i)
-  {
+  for(int i = 0; i < numCells; ++i) {
     Cell *cell = &cells[i];
     int np = cnumPars[i];
-    for(int j = 0; j < np; ++j)
-    {
+    for(int j = 0; j < np; ++j) {
       Vec3 v_half = cell->hv[j % PARTICLES_PER_CELL] + cell->a[j % PARTICLES_PER_CELL]*timeStep;
 #if defined(USE_ImpeneratableWall)
 	  // N.B. The integration of the position can place the particle
@@ -1037,8 +983,9 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_roi_begin();
 #endif
-  for(int i = 0; i < framenum; ++i)
+  for(int i = 0; i < framenum; ++i) {
     AdvanceFrame();
+  }
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_roi_end();
 #endif
