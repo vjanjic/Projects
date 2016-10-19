@@ -5,7 +5,6 @@
 #define __FLUID_HPP__ 1
 
 #include <stddef.h>
-
 #if defined(WIN32)
 typedef __int64 int64_t;
 typedef __int32 int32_t;
@@ -19,6 +18,8 @@ typedef unsigned __int8 uint8_t;
 #include <stdint.h>
 #endif
 #include <math.h>
+
+
 
 //Enable to use double precision in program for everything except disk I/O, otherwise single precision is used
 //#define ENABLE_DOUBLE_PRECISION
@@ -36,6 +37,7 @@ typedef float fptype;
 #else
 typedef double fptype;
 #endif
+
 
 static inline int isLittleEndian() {
   union {

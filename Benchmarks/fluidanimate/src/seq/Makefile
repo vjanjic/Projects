@@ -1,7 +1,6 @@
 TARGET   = fluidanimate
 OBJS     = serial.o cellpool.o
 
-# To enable visualization comment out the following lines (don't do this for benchmarking)
 OBJS     += fluidview.o
 CXXFLAGS += -DENABLE_VISUALIZATION
 LIBS     += -lGL -lGLU -lglut
@@ -20,3 +19,5 @@ fluidcmp: fluidcmp.cpp
 clean:
 	rm -rf $(TARGET) 
 	rm -rf fluidcmp
+	rm -rd *.o
+
