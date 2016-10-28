@@ -1,3 +1,7 @@
+Dependencies: You need to install the glut library (freeglut3 and freeglut3-dev on
+Ubuntu) for visualisations. sudo apt-get install freeglut3 freeglut3-dev does the
+trick on Ubuntu. No clue how to do this on Mac, though...
+
 This assumes that you want to create a project that will keep separate copies of the
 source files. This is convenient for modifying the files freely without having to
 worry about overwriting stuff. If, however, you want the project to directly manage
