@@ -1,0 +1,67 @@
+This assumes that you want to create a project that will keep separate copies of the
+source files. This is convenient for modifying the files freely without having to
+worry about overwriting stuff. If, however, you want the project to directly manage
+files in the repo, in the step 1, when choosing a location of the source files,
+instead of using a default location ($HOME/workspace or similar), you need to choose
+the fluidanimate directory from the Git repository. This is useful if you want to
+make changes to the code that will have to be commited back to the repository,
+as the Eclipse recognises that the directory is a part of the Git repository and
+gives you a nice set of tools for commiting/pushing changes. In this case, you can
+omit the step 3 below
+
+
+1. Go to File -> New -> C++ Project
+   Project type: Empty Project
+   Toolchains: Linux GCC
+   Name: FluidAnimateSeq
+
+2. Click Finish
+
+3. Right click on the FluidAnimateSeq project, select Import, select General ->
+File System. Choose the fluidanimate/src/seq directory from the repository. 
+Select all files and click finish.
+
+Here, we will use two different builds. We will create a new build for
+visualisation. This is good for demonstrating the application to people,
+as we get a nice visualisation of movement of particles in the fluid.
+In the default build, however, we will not use visualisation, since
+the visualisation goes on continuously and is not convenient for discovering
+hotspots and checking how good the parallelisation is in terms of delivered
+speedups. 
+
+4. Create a new build configuration. Right click on FluidAnimateSeq, select
+Build Configurations -> Manage. Select New, and put Visualisation as a name.
+Import from the Default. After finishing, go to Build Configurations again
+and set Visualisation as the active one.
+
+5. Right click on the FluidAnimateSeq project, select Properties. Go to C++ General ->
+Paths and Symbols. Go to Symbols, Click GNU C++, click Add. Under name, type
+ENABLE_VISUALIZATION. Leave the value empty and click Ok. Back at the Paths and
+Symbols, click on Libraries. Add the following libraries by clicking Add: glut, GL
+and GLU. DO NOT click on 'Add to all configurations'. Click Appy, then OK
+
+5. Try building the project by right clicking on FluidAnimateSeq and clicking Build Project.
+
+6. Create a new Run configuration. Right click FluidAnimateSeq, then select Run as -> Run
+configurations. Click on New Launch Configuration. Make sure the executable is
+Visualization/FluidAnimateSeq. Click on arguments and click inside the Program Arguments
+part. Type the following (with linebreaks):
+1
+10
+<location_of_the_fluidanimate_dir>/inputs/in_15K.fluid
+output
+
+7. Click Apply, then Run
+
+8. Now modify the default build configuration. We need to remove the fluidview.cpp and
+fluidview.hpp from that build. Right click on the fluidview.cpp file under
+FluidAnimateSeq, click Resource Configuration -> Exclude from Build, and tick
+Default build.
+
+9. Try building the project again. Set the active build configuration to
+default (right click on FluidAnimateSeq, select Build Configurations -> Set Active ->
+Default), and build the project (right click on FluidAnimateSeq, then select
+Build Project).
+
+10. Create another run configuration. It is essentially the same as in step 6, but the
+executable should be Default/FluidAnimateSeq, instead of Visualisation/FluidAnimateSeq
